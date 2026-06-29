@@ -191,6 +191,21 @@ input, textarea, select {
   to { transform: rotate(360deg); }
 }
 
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 20px rgba(37, 211, 102, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(37, 211, 102, 0.45); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-6px); }
+  30% { transform: translateX(6px); }
+  45% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  90% { transform: translateX(2px); }
+}
+
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(40px);
@@ -221,6 +236,26 @@ input, textarea, select {
   border-bottom: 1px solid var(--border-color);
   padding: 10px 0;
   box-shadow: var(--shadow-md);
+}
+
+/* ===== Scroll Progress Bar ===== */
+.scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 1001;
+  background: transparent;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gradient-primary);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.4);
+  transition: width 0.05s linear;
 }
 
 .navbar .container {
@@ -991,6 +1026,43 @@ input, textarea, select {
   resize: vertical;
 }
 
+/* Form validation visual states */
+.form-group input.valid,
+.form-group select.valid,
+.form-group textarea.valid {
+  border-color: rgba(37, 211, 102, 0.5);
+  box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.08);
+}
+
+.form-group input.invalid,
+.form-group select.invalid,
+.form-group textarea.invalid {
+  border-color: rgba(230, 57, 70, 0.5);
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.08);
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.char-counter {
+  display: block;
+  text-align: left;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-family: var(--font-en);
+  transition: color var(--transition-normal);
+}
+
+[dir="rtl"] .char-counter {
+  text-align: right;
+}
+
+.char-counter.warning {
+  color: var(--primary-light);
+}
+
 .btn-whatsapp-send {
   width: 100%;
   padding: 14px;
@@ -1399,7 +1471,7 @@ input, textarea, select {
 
 .btn-float-whatsapp {
   background: #25d366;
-  animation: pulse-glow 3s infinite;
+  animation: pulse-green 3s infinite;
   right: 24px;
 }
 
@@ -1901,5 +1973,86 @@ input, textarea, select {
   color: #ff4d5e;
   border: 1px solid rgba(230, 57, 70, 0.25);
   box-shadow: 0 0 10px rgba(230, 57, 70, 0.05);
+}
+
+/* ===== FAQ Section ===== */
+.faq-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.faq-item:hover {
+  border-color: rgba(230, 57, 70, 0.15);
+}
+
+.faq-item.active {
+  border-color: var(--border-glow);
+  box-shadow: 0 4px 20px rgba(230, 57, 70, 0.08);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  cursor: pointer;
+  user-select: none;
+  gap: 16px;
+  transition: background var(--transition-normal);
+}
+
+.faq-question:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.faq-question h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  flex: 1;
+  line-height: 1.6;
+}
+
+.faq-question .faq-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: rgba(230, 57, 70, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 0.8rem;
+  transition: all var(--transition-normal);
+}
+
+.faq-item.active .faq-icon {
+  background: var(--gradient-primary);
+  color: white;
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-answer-content {
+  padding: 0 24px 22px;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  border-top: 1px solid var(--border-color);
+  padding-top: 18px;
 }
 

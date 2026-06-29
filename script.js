@@ -34,6 +34,9 @@ if (document.readyState === 'complete') {
 const navbar = document.getElementById('navbar');
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 
+// ===== Scroll Progress Bar =====
+const scrollProgressBar = document.getElementById('scrollProgress');
+
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
 
@@ -49,6 +52,13 @@ window.addEventListener('scroll', () => {
     scrollTopBtn.classList.add('visible');
   } else {
     scrollTopBtn.classList.remove('visible');
+  }
+
+  // Scroll progress bar
+  if (scrollProgressBar) {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+    scrollProgressBar.style.width = `${progress}%`;
   }
 
   // Active nav link
@@ -119,7 +129,7 @@ const observerOptions = {
   threshold: 0.1
 };
 
-const observer = new IntersectionObserver((entries) => {
+const observer = new IntersectionObserver((entries, obs) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
@@ -135,6 +145,8 @@ const observer = new IntersectionObserver((entries) => {
           child.style.transform = 'translateY(0)';
         }, index * 120);
       });
+      // Stop observing once visible to prevent flickering on re-scroll
+      obs.unobserve(entry.target);
     }
   });
 }, observerOptions);
@@ -194,15 +206,12 @@ contactForm.addEventListener('submit', (e) => {
   if (!name || !service || !description) {
     const errorText = (translations[currentLang] && translations[currentLang]['notif-error']) || 'يرجى ملء جميع الحقول المطلوبة';
     showNotification(errorText, 'error');
+    // Shake the submit button to alert user
+    const submitBtn = contactForm.querySelector('.btn-whatsapp-send');
+    submitBtn.classList.add('shake');
+    setTimeout(() => submitBtn.classList.remove('shake'), 600);
     return;
   }
-
-  // Animation & Feedback on submit button
-  const submitBtn = contactForm.querySelector('.btn-whatsapp-send');
-  const originalBtnHTML = submitBtn.innerHTML;
-  submitBtn.disabled = true;
-  const loadingText = (translations[currentLang] && translations[currentLang]['btn-submit-loading']) || 'جاري التحويل...';
-  submitBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> ${loadingText}`;
 
   // Compile message in selected language
   const template = (translations[currentLang] && translations[currentLang]['wa-msg-title']) || 'الاسم: {name}\nالخدمة: {service}\nالوصف: {description}';
@@ -212,24 +221,35 @@ contactForm.addEventListener('submit', (e) => {
     .replace('{description}', description);
 
   const encodedMessage = encodeURIComponent(message);
-  const whatsappURL = `https://wa.me/+213657565256?text=${encodedMessage}`;
+  const whatsappURL = `https://api.whatsapp.com/send/?phone=213657565256&text=${encodedMessage}`;
 
+  // Open WhatsApp immediately (synchronous user gesture) to avoid popup blocker
+  window.open(whatsappURL, '_blank');
+
+  // Animation & Feedback on submit button
+  const submitBtn = contactForm.querySelector('.btn-whatsapp-send');
+  const originalBtnHTML = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  const loadingText = (translations[currentLang] && translations[currentLang]['btn-submit-loading']) || 'جاري التحويل...';
+  submitBtn.innerHTML = `<i class="fas fa-check-circle"></i> ${loadingText}`;
+
+  // Show success notification
+  const successText = (translations[currentLang] && translations[currentLang]['notif-success']) || 'جاري فتح الواتساب...';
+  showNotification(successText, 'success');
+
+  // Trigger audio and haptic feedback
+  playSuccessSound();
+  triggerHapticFeedback();
+
+  // Restore button state after visual feedback
   setTimeout(() => {
-    window.open(whatsappURL, '_blank');
-
-    // Show success notification
-    const successText = (translations[currentLang] && translations[currentLang]['notif-success']) || 'جاري فتح الواتساب...';
-    showNotification(successText, 'success');
-
-    // Trigger audio and haptic feedback
-    playSuccessSound();
-    triggerHapticFeedback();
-
-    // Restore button state
     submitBtn.disabled = false;
     submitBtn.innerHTML = originalBtnHTML;
     contactForm.reset();
-  }, 1000);
+    // Reset character counter if present
+    const charCounter = document.getElementById('charCounter');
+    if (charCounter) charCounter.textContent = '0 / 500';
+  }, 1500);
 });
 
 // ===== Notification System =====
@@ -496,10 +516,14 @@ function updateWorkingStatus() {
     }
     if (heroBadgeText) {
       heroBadgeText.setAttribute('data-i18n', 'hero-badge-open');
+      const text = translations[currentLang] && translations[currentLang]['hero-badge-open'];
+      if (text) heroBadgeText.textContent = text;
     }
     if (hoursLiveBadge) {
       hoursLiveBadge.className = 'live-badge open';
       hoursLiveBadge.setAttribute('data-i18n', 'badge-open');
+      const text = translations[currentLang] && translations[currentLang]['badge-open'];
+      if (text) hoursLiveBadge.textContent = text;
     }
   } else {
     if (heroBadgeDot) {
@@ -508,10 +532,14 @@ function updateWorkingStatus() {
     }
     if (heroBadgeText) {
       heroBadgeText.setAttribute('data-i18n', 'hero-badge-closed');
+      const text = translations[currentLang] && translations[currentLang]['hero-badge-closed'];
+      if (text) heroBadgeText.textContent = text;
     }
     if (hoursLiveBadge) {
       hoursLiveBadge.className = 'live-badge closed';
       hoursLiveBadge.setAttribute('data-i18n', 'badge-closed');
+      const text = translations[currentLang] && translations[currentLang]['badge-closed'];
+      if (text) hoursLiveBadge.textContent = text;
     }
   }
 }
@@ -520,10 +548,9 @@ function updateWorkingStatus() {
 updateWorkingStatus();
 setLanguage(currentLang);
 
-// Run status check every minute
+// Run status check every minute — only update working status, NOT full re-translation
 setInterval(() => {
   updateWorkingStatus();
-  setLanguage(currentLang);
 }, 60000);
 
 const langToggle = document.getElementById('langToggle');
@@ -533,3 +560,106 @@ if (langToggle) {
     setLanguage(nextLang);
   });
 }
+
+// ===== FAQ Accordion =====
+function initFAQ() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    question.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      // Close all other open items
+      faqItems.forEach(other => {
+        if (other !== item) {
+          other.classList.remove('active');
+          other.querySelector('.faq-answer').style.maxHeight = null;
+        }
+      });
+      // Toggle current item
+      if (isActive) {
+        item.classList.remove('active');
+        item.querySelector('.faq-answer').style.maxHeight = null;
+      } else {
+        item.classList.add('active');
+        const answer = item.querySelector('.faq-answer');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+}
+initFAQ();
+
+// ===== Form Validation UX =====
+function initFormValidation() {
+  const nameInput = document.getElementById('clientName');
+  const serviceSelect = document.getElementById('serviceType');
+  const descTextarea = document.getElementById('projectDesc');
+  const charCounter = document.getElementById('charCounter');
+  const maxChars = 500;
+
+  // Real-time visual validation
+  function validateField(field) {
+    if (field.value.trim().length > 0) {
+      field.classList.add('valid');
+      field.classList.remove('invalid');
+    } else if (field.dataset.touched) {
+      field.classList.add('invalid');
+      field.classList.remove('valid');
+    }
+  }
+
+  [nameInput, serviceSelect, descTextarea].forEach(field => {
+    if (!field) return;
+    field.addEventListener('blur', () => {
+      field.dataset.touched = 'true';
+      validateField(field);
+    });
+    field.addEventListener('input', () => {
+      if (field.dataset.touched) validateField(field);
+    });
+  });
+
+  // Character counter for project description
+  if (descTextarea && charCounter) {
+    descTextarea.setAttribute('maxlength', maxChars);
+    descTextarea.addEventListener('input', () => {
+      const count = descTextarea.value.length;
+      charCounter.textContent = `${count} / ${maxChars}`;
+      if (count >= maxChars * 0.9) {
+        charCounter.classList.add('warning');
+      } else {
+        charCounter.classList.remove('warning');
+      }
+    });
+  }
+}
+initFormValidation();
+
+// ===== 3D Tilt Effect on Cards =====
+function initTiltEffect() {
+  const cards = document.querySelectorAll('.service-card, .project-card, .blog-card');
+  
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -6;
+      const rotateY = ((x - centerX) / centerX) * 6;
+      
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.15s ease-out';
+    });
+  });
+}
+initTiltEffect();

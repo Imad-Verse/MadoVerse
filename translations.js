@@ -83,7 +83,7 @@ const translations = {
     "contact-title-2": " الآن",
     "contact-desc": "أرسل لنا تفاصيل مشروعك عبر الواتساب وسنتواصل معك في أقرب وقت",
 
-    "form-header": "📩 نموذج طلب الخدمة",
+    "form-header": "\ud83d\udce9 نموذج طلب الخدمة",
     "form-subheader": "أكمل البيانات التالية وسيتم إرسالها مباشرة عبر الواتساب",
     "label-name": "الاسم الكامل",
     "ph-name": "أدخل اسمك الكامل",
@@ -136,15 +136,31 @@ const translations = {
     "footer-dev-name": "بعلول عماد الدين",
 
     // WhatsApp templates
-    "wa-msg-title": "السلام عليكم ورحمة الله وبركاته 🌟\n\n📋 *طلب خدمة جديد من موقع MadoVerse*\n\n👤 *الاسم:* {name}\n🔧 *الخدمة المطلوبة:* {service}\n\n📝 *تفاصيل المشروع:*\n{description}\n\n---\nتم الإرسال من موقع MadoVerse ✨",
-    "notif-success": "جاري فتح الواتساب... أرسل الرسالة لإتمام الطلب ✅",
+    "wa-msg-title": "\ud83c\udf38 السلام عليكم ورحمة الله وبركاته\n\n\ud83d\udccb *طلب خدمة جديد من موقع MadoVerse*\n\n\ud83d\udc64 *الاسم:* {name}\n\ud83d\udd27 *الخدمة المطلوبة:* {service}\n\n\ud83d\udcdd *تفاصيل المشروع:*\n{description}",
+    "notif-success": "جاري فتح الواتساب... أرسل الرسالة لإتمام الطلب \u2705",
     "notif-error": "يرجى ملء جميع الحقول المطلوبة",
 
     // Floating
     "float-wa": "تواصل عبر الواتساب",
     "float-top": "العودة للأعلى",
     "map-title": "موقع الشركة على الخريطة",
-    "lang-toggle-title": "تغيير اللغة"
+    "lang-toggle-title": "تغيير اللغة",
+
+    // FAQ
+    "faq-badge": "أسئلة شائعة",
+    "faq-title-1": "الأسئلة ",
+    "faq-title-highlight": "الشائعة",
+    "faq-desc": "إجابات على أكثر الأسئلة التي يطرحها عملاؤنا الكرام",
+    "faq-q1": "كم تستغرق مدة تسليم المشروع؟",
+    "faq-a1": "تعتمد مدة التسليم على نوع المشروع وحجمه. عادةً تستغرق الصفحات الشخصية من 3 إلى 5 أيام، بينما المواقع الكبيرة قد تحتاج من أسبوع إلى أسبوعين. نحرص على التواصل المستمر معك لتحديد جدول زمني دقيق.",
+    "faq-q2": "ما هي طرق الدفع المتاحة؟",
+    "faq-a2": "نقبل الدفع عبر CCP (بريد الجزائر)، باريدي موب، أو التحويل البنكي. كما يمكن الاتفاق على طريقة دفع أخرى حسب راحتك.",
+    "faq-q3": "هل يمكنني طلب تعديلات بعد التسليم؟",
+    "faq-a3": "نعم، نوفر فترة تعديلات مجانية بعد التسليم لضمان رضاك التام. يمكنك طلب تعديلات على التصميم أو المحتوى حتى تكون راضيًا بالكامل عن النتيجة النهائية.",
+    "faq-q4": "هل توفرون خدمة الدعم الفني بعد الإنجاز؟",
+    "faq-a4": "طبعًا! نقدم دعمًا فنيًا مستمرًا بعد تسليم المشروع. إذا واجهت أي مشكلة تقنية أو احتجت لمساعدة، فريقنا متاح للتواصل عبر الواتساب أو التليجرام.",
+    "faq-q5": "هل يمكنني الحصول على تصميم مخصص بالكامل؟",
+    "faq-a5": "بالتأكيد! كل مشاريعنا مصممة خصيصًا حسب احتياجاتك وهويتك. لا نستخدم قوالب جاهزة — بل نبني كل شيء من الصفر ليعكس رؤيتك بدقة."
   },
   en: {
     // Document
@@ -230,7 +246,7 @@ const translations = {
     "contact-title-2": " Now",
     "contact-desc": "Submit your project details via WhatsApp and we will get back to you shortly",
 
-    "form-header": "📩 Service Request Form",
+    "form-header": "\ud83d\udce9 Service Request Form",
     "form-subheader": "Complete the form below to send details directly to us via WhatsApp",
     "label-name": "Full Name",
     "ph-name": "Enter your full name",
@@ -283,14 +299,30 @@ const translations = {
     "footer-dev-name": "Baaloul Imad Eddine",
 
     // WhatsApp templates
-    "wa-msg-title": "Peace be upon you, mercy and blessings of Allah 🌟\n\n📋 *New Service Request from MadoVerse*\n\n👤 *Name:* {name}\n🔧 *Requested Service:* {service}\n\n📝 *Project Details:*\n{description}\n\n---\nSent via MadoVerse Site ✨",
-    "notif-success": "Opening WhatsApp... Send the message to finalize your request ✅",
+    "wa-msg-title": "\ud83c\udf38 Peace be upon you, mercy and blessings of Allah\n\n\ud83d\udccb *New Service Request from MadoVerse*\n\n\ud83d\udc64 *Name:* {name}\n\ud83d\udd27 *Requested Service:* {service}\n\n\ud83d\udcdd *Project Details:*\n{description}",
+    "notif-success": "Opening WhatsApp... Send the message to finalize your request \u{2705}",
     "notif-error": "Please fill in all required fields",
 
     // Floating
     "float-wa": "Chat on WhatsApp",
     "float-top": "Scroll to Top",
     "map-title": "Company Location Map",
-    "lang-toggle-title": "Switch Language"
+    "lang-toggle-title": "Switch Language",
+
+    // FAQ
+    "faq-badge": "FAQ",
+    "faq-title-1": "Frequently Asked ",
+    "faq-title-highlight": "Questions",
+    "faq-desc": "Answers to the most common questions from our valued clients",
+    "faq-q1": "How long does project delivery take?",
+    "faq-a1": "Delivery time depends on the project type and scope. Personal pages typically take 3 to 5 days, while larger websites may require 1 to 2 weeks. We maintain constant communication to set an accurate timeline.",
+    "faq-q2": "What payment methods are available?",
+    "faq-a2": "We accept payments via CCP (Algeria Post), BaridiMob, or bank transfer. We can also agree on an alternative payment method based on your preference.",
+    "faq-q3": "Can I request modifications after delivery?",
+    "faq-a3": "Yes, we offer a free revision period after delivery to ensure your complete satisfaction. You can request design or content changes until you are fully happy with the final result.",
+    "faq-q4": "Do you provide technical support after completion?",
+    "faq-a4": "Absolutely! We provide ongoing technical support after project delivery. If you encounter any technical issue or need assistance, our team is available via WhatsApp or Telegram.",
+    "faq-q5": "Can I get a fully custom design?",
+    "faq-a5": "Of course! All our projects are designed specifically according to your needs and identity. We don't use ready-made templates — we build everything from scratch to reflect your vision precisely."
   }
 };

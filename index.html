@@ -22,6 +22,11 @@
 </head>
 <body>
 
+  <!-- ===== Scroll Progress Bar ===== -->
+  <div class="scroll-progress-container">
+    <div class="scroll-progress-bar" id="scrollProgress"></div>
+  </div>
+
   <!-- ===== Preloader ===== -->
   <div class="preloader" id="preloader">
     <div class="preloader-content">
@@ -420,6 +425,7 @@
                 <span data-i18n="label-desc">وصف ما تريد</span>
               </label>
               <textarea id="projectDesc" placeholder="اشرح لنا تفاصيل مشروعك أو الخدمة المطلوبة..." data-i18n-placeholder="ph-desc" rows="5" required></textarea>
+              <span class="char-counter" id="charCounter">0 / 500</span>
             </div>
 
             <button type="submit" class="btn-whatsapp-send">
@@ -504,6 +510,72 @@
                 <p>Abulharith.imad</p>
               </div>
             </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ Section ===== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-badge">
+          <i class="fas fa-question-circle"></i>
+          <span data-i18n="faq-badge">أسئلة شائعة</span>
+        </span>
+        <h2 class="section-title"><span data-i18n="faq-title-1">الأسئلة </span><span class="highlight" data-i18n="faq-title-highlight">الشائعة</span></h2>
+        <p class="section-desc" data-i18n="faq-desc">إجابات على أكثر الأسئلة التي يطرحها عملاؤنا الكرام</p>
+      </div>
+
+      <div class="faq-wrapper animate-on-scroll">
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4 data-i18n="faq-q1">كم تستغرق مدة تسليم المشروع؟</h4>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content" data-i18n="faq-a1">تعتمد مدة التسليم على نوع المشروع وحجمه. عادةً تستغرق الصفحات الشخصية من 3 إلى 5 أيام، بينما المواقع الكبيرة قد تحتاج من أسبوع إلى أسبوعين. نحرص على التواصل المستمر معك لتحديد جدول زمني دقيق.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4 data-i18n="faq-q2">ما هي طرق الدفع المتاحة؟</h4>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content" data-i18n="faq-a2">نقبل الدفع عبر CCP (بريد الجزائر)، باريدي موب، أو التحويل البنكي. كما يمكن الاتفاق على طريقة دفع أخرى حسب راحتك.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4 data-i18n="faq-q3">هل يمكنني طلب تعديلات بعد التسليم؟</h4>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content" data-i18n="faq-a3">نعم، نوفر فترة تعديلات مجانية بعد التسليم لضمان رضاك التام. يمكنك طلب تعديلات على التصميم أو المحتوى حتى تكون راضيًا بالكامل عن النتيجة النهائية.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4 data-i18n="faq-q4">هل توفرون خدمة الدعم الفني بعد الإنجاز؟</h4>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content" data-i18n="faq-a4">طبعًا! نقدم دعمًا فنيًا مستمرًا بعد تسليم المشروع. إذا واجهت أي مشكلة تقنية أو احتجت لمساعدة، فريقنا متاح للتواصل عبر الواتساب أو التليجرام.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <h4 data-i18n="faq-q5">هل يمكنني الحصول على تصميم مخصص بالكامل؟</h4>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content" data-i18n="faq-a5">بالتأكيد! كل مشاريعنا مصممة خصيصًا حسب احتياجاتك وهويتك. لا نستخدم قوالب جاهزة — بل نبني كل شيء من الصفر ليعكس رؤيتك بدقة.</div>
           </div>
         </div>
       </div>
@@ -648,7 +720,7 @@
   </div>
 
   <!-- ===== Scripts ===== -->
-  <script src="translations.js"></script>
-  <script src="script.js"></script>
+  <script src="translations.js?v=1.3" charset="utf-8"></script>
+  <script src="script.js?v=1.3" charset="utf-8"></script>
 </body>
 </html>
