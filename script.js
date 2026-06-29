@@ -1,13 +1,34 @@
 // ===== Preloader =====
-window.addEventListener('load', () => {
-  const preloader = document.getElementById('preloader');
-  setTimeout(() => {
+const preloader = document.getElementById('preloader');
+let preloaderTimeout;
+
+function hidePreloader() {
+  if (preloader && !preloader.classList.contains('hidden')) {
+    // Elegant minor shrink animation on logo during exit
+    const logo = preloader.querySelector('.preloader-logo');
+    if (logo) {
+      logo.style.transform = 'scale(0.8)';
+    }
     preloader.classList.add('hidden');
-  }, 800);
-  setTimeout(() => {
-    preloader.style.display = 'none';
-  }, 1300);
-});
+    setTimeout(() => {
+      preloader.style.display = 'none';
+    }, 500); // matching the css transition duration
+  }
+}
+
+if (document.readyState === 'complete') {
+  // Page is already fully loaded
+  setTimeout(hidePreloader, 600);
+} else {
+  // Page is still loading, set fallback timeout (max 3 seconds)
+  preloaderTimeout = setTimeout(hidePreloader, 3000);
+  
+  window.addEventListener('load', () => {
+    if (preloaderTimeout) clearTimeout(preloaderTimeout);
+    // Smooth branding showcase delay before fading out
+    setTimeout(hidePreloader, 850);
+  });
+}
 
 // ===== Navbar Scroll Effect =====
 const navbar = document.getElementById('navbar');
