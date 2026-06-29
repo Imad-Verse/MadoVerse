@@ -1,0 +1,514 @@
+// ===== Preloader =====
+window.addEventListener('load', () => {
+  const preloader = document.getElementById('preloader');
+  setTimeout(() => {
+    preloader.classList.add('hidden');
+  }, 800);
+  setTimeout(() => {
+    preloader.style.display = 'none';
+  }, 1300);
+});
+
+// ===== Navbar Scroll Effect =====
+const navbar = document.getElementById('navbar');
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  // Navbar background
+  if (scrollY > 60) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+
+  // Scroll to top button
+  if (scrollY > 400) {
+    scrollTopBtn.classList.add('visible');
+  } else {
+    scrollTopBtn.classList.remove('visible');
+  }
+
+  // Active nav link
+  updateActiveNavLink();
+});
+
+// ===== Scroll to Top =====
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ===== Mobile Menu =====
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+const navOverlay = document.getElementById('navOverlay');
+
+function toggleMenu() {
+  menuToggle.classList.toggle('active');
+  navLinks.classList.toggle('active');
+  navOverlay.classList.toggle('active');
+  document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+}
+
+menuToggle.addEventListener('click', toggleMenu);
+navOverlay.addEventListener('click', toggleMenu);
+
+// Close menu on link click
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (navLinks.classList.contains('active')) {
+      toggleMenu();
+    }
+  });
+});
+
+// ===== Active Nav Link on Scroll =====
+function updateActiveNavLink() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinksAll = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 110;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  // Handle edge case when at bottom of page
+  if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 10) {
+    if (sections.length > 0) {
+      current = sections[sections.length - 1].getAttribute('id');
+    }
+  }
+
+  navLinksAll.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === `#${current}`) {
+      link.classList.add('active');
+    }
+  });
+}
+
+// ===== Scroll Animations (Intersection Observer) =====
+const observerOptions = {
+  root: null,
+  rootMargin: '0px 0px -80px 0px',
+  threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Add stagger effect for grid children
+      const children = entry.target.querySelectorAll('.service-card, .project-card, .blog-card, .contact-card');
+      children.forEach((child, index) => {
+        child.style.animationDelay = `${index * 0.1}s`;
+        child.style.opacity = '0';
+        child.style.transform = 'translateY(30px)';
+        setTimeout(() => {
+          child.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+          child.style.opacity = '1';
+          child.style.transform = 'translateY(0)';
+        }, index * 120);
+      });
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.animate-on-scroll').forEach(el => {
+  observer.observe(el);
+});
+
+// ===== Audio & Haptic Feedback Helpers =====
+function playSuccessSound() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    osc.type = 'sine';
+    // Gentle chime: Note C5 (523Hz) slide to E5 (659Hz)
+    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(659.25, ctx.currentTime + 0.12);
+    
+    // Smooth volume fade envelope
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.04);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    osc.start();
+    osc.stop(ctx.currentTime + 0.5);
+  } catch (error) {
+    console.warn("Audio playback context failed to initialize:", error);
+  }
+}
+
+function triggerHapticFeedback() {
+  if (navigator && typeof navigator.vibrate === 'function') {
+    // Elegant quick double vibration
+    navigator.vibrate([80, 50, 80]);
+  }
+}
+
+// ===== Contact Form - WhatsApp =====
+const contactForm = document.getElementById('contactForm');
+
+contactForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('clientName').value.trim();
+  const serviceSelect = document.getElementById('serviceType');
+  const service = serviceSelect.options[serviceSelect.selectedIndex].text;
+  const description = document.getElementById('projectDesc').value.trim();
+
+  if (!name || !service || !description) {
+    const errorText = (translations[currentLang] && translations[currentLang]['notif-error']) || 'يرجى ملء جميع الحقول المطلوبة';
+    showNotification(errorText, 'error');
+    return;
+  }
+
+  // Animation & Feedback on submit button
+  const submitBtn = contactForm.querySelector('.btn-whatsapp-send');
+  const originalBtnHTML = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  const loadingText = (translations[currentLang] && translations[currentLang]['btn-submit-loading']) || 'جاري التحويل...';
+  submitBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> ${loadingText}`;
+
+  // Compile message in selected language
+  const template = (translations[currentLang] && translations[currentLang]['wa-msg-title']) || 'الاسم: {name}\nالخدمة: {service}\nالوصف: {description}';
+  const message = template
+    .replace('{name}', name)
+    .replace('{service}', service)
+    .replace('{description}', description);
+
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappURL = `https://wa.me/+213657565256?text=${encodedMessage}`;
+
+  setTimeout(() => {
+    window.open(whatsappURL, '_blank');
+
+    // Show success notification
+    const successText = (translations[currentLang] && translations[currentLang]['notif-success']) || 'جاري فتح الواتساب...';
+    showNotification(successText, 'success');
+
+    // Trigger audio and haptic feedback
+    playSuccessSound();
+    triggerHapticFeedback();
+
+    // Restore button state
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalBtnHTML;
+    contactForm.reset();
+  }, 1000);
+});
+
+// ===== Notification System =====
+function showNotification(message, type = 'info') {
+  // Remove existing notifications
+  const existing = document.querySelector('.notification');
+  if (existing) existing.remove();
+
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+    <div class="notification-content">
+      <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+      <span>${message}</span>
+    </div>
+  `;
+
+  // Determine direction
+  const isLTR = document.documentElement.getAttribute('dir') === 'ltr';
+
+  // Styles
+  Object.assign(notification.style, {
+    position: 'fixed',
+    top: '24px',
+    [isLTR ? 'right' : 'right']: isLTR ? 'auto' : '24px',
+    [isLTR ? 'left' : 'left']: isLTR ? 'auto' : 'auto',
+    zIndex: '10000',
+    padding: '16px 24px',
+    borderRadius: '12px',
+    background: type === 'success' ? 'rgba(37, 211, 102, 0.15)' : type === 'error' ? 'rgba(230, 57, 70, 0.15)' : 'rgba(0, 136, 204, 0.15)',
+    border: `1px solid ${type === 'success' ? 'rgba(37, 211, 102, 0.3)' : type === 'error' ? 'rgba(230, 57, 70, 0.3)' : 'rgba(0, 136, 204, 0.3)'}`,
+    color: type === 'success' ? '#25d366' : type === 'error' ? '#ff4d5e' : '#0088cc',
+    backdropFilter: 'blur(20px)',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+    transform: isLTR ? 'translateX(-120%)' : 'translateX(120%)',
+    transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+    fontFamily: isLTR ? "'Outfit', sans-serif" : "'Tajawal', sans-serif",
+    fontSize: '0.95rem',
+    fontWeight: '600',
+    maxWidth: '380px',
+    direction: isLTR ? 'ltr' : 'rtl'
+  });
+
+  // Position on correct side
+  if (isLTR) {
+    notification.style.left = '24px';
+    notification.style.right = 'auto';
+  } else {
+    notification.style.right = '24px';
+    notification.style.left = 'auto';
+  }
+
+  const notifContent = notification.querySelector('.notification-content');
+  Object.assign(notifContent.style, {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  });
+
+  document.body.appendChild(notification);
+
+  // Animate in
+  requestAnimationFrame(() => {
+    notification.style.transform = 'translateX(0)';
+  });
+
+  // Auto remove
+  setTimeout(() => {
+    notification.style.transform = isLTR ? 'translateX(-120%)' : 'translateX(120%)';
+    setTimeout(() => notification.remove(), 500);
+  }, 4000);
+}
+
+// ===== Smooth Scroll for Anchor Links =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// ===== Counter Animation for Stats =====
+function animateCounters() {
+  const counters = document.querySelectorAll('.stat-number');
+  counters.forEach(counter => {
+    const target = counter.innerText;
+    const hasPlus = target.includes('+');
+    const hasPercent = target.includes('%');
+    const numericValue = parseInt(target.replace(/[^0-9]/g, ''));
+
+    if (isNaN(numericValue)) return;
+
+    let current = 0;
+    const duration = 2000;
+    const step = Math.ceil(numericValue / (duration / 16));
+
+    const updateCounter = () => {
+      current += step;
+      if (current >= numericValue) {
+        current = numericValue;
+        counter.innerText = (hasPlus ? '+' : '') + current + (hasPercent ? '%' : '');
+        return;
+      }
+      counter.innerText = (hasPlus ? '+' : '') + current + (hasPercent ? '%' : '');
+      requestAnimationFrame(updateCounter);
+    };
+
+    // Reset and start
+    counter.innerText = (hasPlus ? '+' : '') + '0' + (hasPercent ? '%' : '');
+    updateCounter();
+  });
+}
+
+// Trigger counter animation when hero is visible
+const heroObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(animateCounters, 500);
+      heroObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) {
+  heroObserver.observe(heroStats);
+}
+
+// ===== Parallax Particles =====
+document.addEventListener('mousemove', (e) => {
+  const particles = document.querySelectorAll('.particle');
+  const mouseX = e.clientX / window.innerWidth;
+  const mouseY = e.clientY / window.innerHeight;
+
+  particles.forEach((particle, index) => {
+    const speed = (index + 1) * 0.5;
+    const x = (mouseX - 0.5) * speed * 30;
+    const y = (mouseY - 0.5) * speed * 30;
+    particle.style.transform = `translate(${x}px, ${y}px)`;
+  });
+});
+
+// ===== Image Error Handling =====
+document.querySelectorAll('.project-image img').forEach(img => {
+  // If the image already failed to load before JS executed
+  if (img.complete && img.naturalWidth === 0) {
+    handleImageError(img);
+  } else {
+    img.addEventListener('error', function() {
+      handleImageError(this);
+    });
+  }
+});
+
+function handleImageError(img) {
+  if (!img.dataset.errorHandled) {
+    img.dataset.errorHandled = 'true';
+    img.style.display = 'none';
+    const parent = img.parentElement;
+    const fallback = document.createElement('div');
+    fallback.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;background:rgba(230,57,70,0.08);width:100%;height:100%;';
+    fallback.innerHTML = '<i class="fas fa-laptop-code" style="font-size:3rem;color:var(--primary);opacity:0.5;"></i>';
+    parent.insertBefore(fallback, img);
+  }
+}
+
+// ===== Typing Effect for Hero Badge (subtle) =====
+const heroBadge = document.querySelector('.hero-badge');
+if (heroBadge) {
+  setInterval(() => {
+    heroBadge.style.borderColor = 'rgba(37, 211, 102, 0.4)';
+    setTimeout(() => {
+      heroBadge.style.borderColor = 'rgba(230, 57, 70, 0.2)';
+    }, 1000);
+  }, 3000);
+}
+
+// ===== Translation & Language Toggle =====
+let currentLang = localStorage.getItem('madoverse_lang') || 'ar';
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('madoverse_lang', lang);
+  
+  // Set HTML attributes
+  const html = document.documentElement;
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+  // Update Document title & description
+  if (translations[lang]) {
+    if (translations[lang]['doc-title']) {
+      document.title = translations[lang]['doc-title'];
+    }
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && translations[lang]['doc-desc']) {
+      metaDesc.setAttribute('content', translations[lang]['doc-desc']);
+    }
+  }
+  
+  // Update switcher text
+  const langToggle = document.getElementById('langToggle');
+  if (langToggle) {
+    langToggle.querySelector('span').innerText = lang === 'ar' ? 'EN' : 'عربي';
+  }
+  
+  // Translate static text elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key]) {
+      if (translations[lang][key].includes('<strong') || translations[lang][key].includes('<span')) {
+        el.innerHTML = translations[lang][key];
+      } else {
+        el.textContent = translations[lang][key];
+      }
+    }
+  });
+  
+  // Translate form placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[lang] && translations[lang][key]) {
+      el.setAttribute('placeholder', translations[lang][key]);
+    }
+  });
+
+  // Translate tooltip titles
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if (translations[lang] && translations[lang][key]) {
+      el.setAttribute('title', translations[lang][key]);
+      el.setAttribute('aria-label', translations[lang][key]);
+    }
+  });
+}
+
+// ===== Working Hours Live Indicator =====
+function updateWorkingStatus() {
+  const now = new Date();
+  
+  // Calculate UTC+1 time (Algeria timezone, constant offset)
+  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const algeriaTime = new Date(utc + (3600000 * 1)); 
+  
+  const day = algeriaTime.getDay(); // 0 is Sunday, 5 is Friday
+  const hour = algeriaTime.getHours();
+  
+  // Check if open: Sunday to Thursday, Saturday (0, 1, 2, 3, 4, 6) from 8:00 AM to 4:00 PM (16:00)
+  const isFriday = (day === 5);
+  const isOpen = !isFriday && (hour >= 8 && hour < 16);
+
+  // Get elements
+  const heroBadgeDot = document.getElementById('heroBadgeDot');
+  const heroBadgeText = document.getElementById('heroBadgeText');
+  const hoursLiveBadge = document.getElementById('hoursLiveBadge');
+
+  if (isOpen) {
+    if (heroBadgeDot) {
+      heroBadgeDot.style.color = '#25d366';
+      heroBadgeDot.style.textShadow = '0 0 10px rgba(37, 211, 102, 0.6)';
+    }
+    if (heroBadgeText) {
+      heroBadgeText.setAttribute('data-i18n', 'hero-badge-open');
+    }
+    if (hoursLiveBadge) {
+      hoursLiveBadge.className = 'live-badge open';
+      hoursLiveBadge.setAttribute('data-i18n', 'badge-open');
+    }
+  } else {
+    if (heroBadgeDot) {
+      heroBadgeDot.style.color = '#ff4d5e';
+      heroBadgeDot.style.textShadow = '0 0 10px rgba(230, 57, 70, 0.6)';
+    }
+    if (heroBadgeText) {
+      heroBadgeText.setAttribute('data-i18n', 'hero-badge-closed');
+    }
+    if (hoursLiveBadge) {
+      hoursLiveBadge.className = 'live-badge closed';
+      hoursLiveBadge.setAttribute('data-i18n', 'badge-closed');
+    }
+  }
+}
+
+// Setup Switcher Event Listeners
+updateWorkingStatus();
+setLanguage(currentLang);
+
+// Run status check every minute
+setInterval(() => {
+  updateWorkingStatus();
+  setLanguage(currentLang);
+}, 60000);
+
+const langToggle = document.getElementById('langToggle');
+if (langToggle) {
+  langToggle.addEventListener('click', () => {
+    const nextLang = currentLang === 'ar' ? 'en' : 'ar';
+    setLanguage(nextLang);
+  });
+}
