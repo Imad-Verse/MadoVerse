@@ -61,7 +61,7 @@ const translations = {
         "welding-prob-3": "خسائر مالية بالملايين",
         "welding-prob-4": "إعادة الحوض من الصفر",
         "welding-p2": "❌ بعض الماكينات المنتشرة في السوق تعطي حرارة غير مستقرة ونتائج غير مضمونة مع الوقت… والمصيبة؟ الزبون يكتشف هذا بعد ما يعمر الحوض!",
-        "welding-sol-title": "✅ الحوض الناجح يعتمد على:",
+        "welding-sol-title": "الحوض الناجح يعتمد على:",
         "welding-sol-1": "ماكينة أصلية احترافية",
         "welding-sol-2": "تلحيم ثابت ودقيق",
         "welding-sol-3": "ضمان حقيقي على الخدمة",
@@ -71,14 +71,14 @@ const translations = {
         "reels-label": "ريلز | Reels",
         "calc-title": "حاسبة سعة وعزل <span class=\"highlight\">الأحواض</span>",
         "calc-subtitle": "أداة ذكية لحساب حجم المياه ومساحة الجيوممبران المطلوبة لمشروعك تلقائياً",
-        "calc-h3-inputs": "📏 أدخل أبعاد الحوض",
+        "calc-h3-inputs": "أدخل أبعاد الحوض",
         "calc-label-type": "نوع الحوض المائي:",
         "calc-tab-sloped": "حوض ترابي مائل",
         "calc-tab-vertical": "حوض جدران عمودية",
         "calc-label-length": "الطول العلوي (متر):",
         "calc-label-width": "العرض العلوي (متر):",
         "calc-label-depth": "العمق الإجمالي (متر):",
-        "calc-h3-results": "📊 النتائج التقديرية",
+        "calc-h3-results": "النتائج التقديرية",
         "calc-res-vol-label": "سعة تخزين المياه",
         "calc-res-area-label": "مساحة البلاستيك (Geomembrane)",
         "calc-res-area-sub": "شامل حواف التثبيت واللحام",
@@ -300,7 +300,7 @@ function toggleLanguage() {
 
 function setLanguage(lang) {
     localStorage.setItem('hidrotek_lang', lang);
-    
+
     // Set HTML Dir and Lang
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -317,7 +317,7 @@ function setLanguage(lang) {
     const nextLangText = lang === 'ar' ? 'FR' : 'العربية';
     const langBtn = document.getElementById('langSwitch');
     const langBtnMobile = document.getElementById('langSwitchMobile');
-    
+
     if (langBtn) langBtn.textContent = nextLangText;
     if (langBtnMobile) langBtnMobile.textContent = nextLangText;
 
@@ -457,18 +457,18 @@ tiltCards.forEach(card => {
         const cardRect = card.getBoundingClientRect();
         const cardWidth = cardRect.width;
         const cardHeight = cardRect.height;
-        
+
         // Mouse coordinate relative to card center
         const mouseX = e.clientX - cardRect.left - cardWidth / 2;
         const mouseY = e.clientY - cardRect.top - cardHeight / 2;
-        
+
         // Calculate tilt angles (max 10 degrees)
         const tiltX = -(mouseY / (cardHeight / 2)) * 10;
         const tiltY = (mouseX / (cardWidth / 2)) * 10;
-        
+
         card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
     });
-    
+
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
     });
@@ -514,8 +514,8 @@ function setBasinType(type) {
     if (type === 'sloped') {
         tabSloped.classList.add('active');
         tabVertical.classList.remove('active');
-        calcNote.textContent = currentLang === 'ar' 
-            ? '💡 الحوض المائل يفترض زاوية ميل قياسية (1:1) لحماية الجدران الترابية من الانهيار.' 
+        calcNote.textContent = currentLang === 'ar'
+            ? '💡 الحوض المائل يفترض زاوية ميل قياسية (1:1) لحماية الجدران الترابية من الانهيار.'
             : '💡 Un bassin en pente suppose un talus standard (1:1) pour protéger les parois de l\'érosion.';
     } else {
         tabVertical.classList.add('active');
@@ -555,12 +555,12 @@ function calculateBasin() {
     } else {
         let bottomL = length - (2 * depth);
         let bottomW = width - (2 * depth);
-        
+
         if (bottomL < 2) bottomL = 2;
         if (bottomW < 2) bottomW = 2;
 
-        volume = (depth / 3) * ( (length * width) + (bottomL * bottomW) + Math.sqrt(length * width * bottomL * bottomW) );
-        
+        volume = (depth / 3) * ((length * width) + (bottomL * bottomW) + Math.sqrt(length * width * bottomL * bottomW));
+
         const totalW = width + (0.828 * depth) + 1;
         const totalL = length + (0.828 * depth) + 1;
         area = totalW * totalL;
@@ -587,7 +587,7 @@ function sendCalcWhatsApp() {
     const volume = document.getElementById('resVolume').textContent;
     const area = document.getElementById('resArea').textContent;
     const rolls = document.getElementById('resRolls').textContent;
-    
+
     let message = '';
 
     if (currentLang === 'ar') {
@@ -649,16 +649,16 @@ const lightboxImg = document.getElementById('lightboxImg');
 function openLightbox(index) {
     currentImageIndex = index;
     const lightbox = document.getElementById('lightbox');
-    
+
     // Update counter
     if (lightboxCounter) {
         lightboxCounter.textContent = `${index + 1} / ${galleryImages.length}`;
     }
-    
+
     if (lightboxImg) {
         lightboxImg.src = galleryImages[index];
     }
-    
+
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -673,18 +673,18 @@ function closeLightbox(event, force = false) {
 function navigateLightbox(event, direction) {
     event.stopPropagation();
     if (!lightboxImg) return;
-    
+
     // Smooth transition
     lightboxImg.classList.add('fade-out');
-    
+
     setTimeout(() => {
         currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
         lightboxImg.src = galleryImages[currentImageIndex];
-        
+
         if (lightboxCounter) {
             lightboxCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
         }
-        
+
         lightboxImg.classList.remove('fade-out');
     }, 200);
 }
@@ -861,7 +861,7 @@ function handleSwipeGesture(event) {
 
 // ===== Auto-Pause Other Videos on Play =====
 document.querySelectorAll('video').forEach(video => {
-    video.addEventListener('play', function() {
+    video.addEventListener('play', function () {
         document.querySelectorAll('video').forEach(otherVideo => {
             if (otherVideo !== video) {
                 otherVideo.pause();
