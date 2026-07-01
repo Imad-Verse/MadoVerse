@@ -361,6 +361,7 @@ function setLanguage(lang) {
 // ===== Navbar scroll & active sections effect =====
 const navbar = document.getElementById('navbar');
 const scrollTop = document.getElementById('scrollTop');
+const contactHub = document.getElementById('contactHub');
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a:not(.nav-cta)');
 
@@ -374,11 +375,16 @@ window.addEventListener('scroll', () => {
         navbar.classList.remove('scrolled');
     }
 
-    // Scroll to Top button visibility
+    // Scroll to Top & Contact Hub visibility
     if (scrollY > 400) {
         scrollTop.classList.add('visible');
+        if (contactHub) contactHub.classList.add('visible');
     } else {
         scrollTop.classList.remove('visible');
+        if (contactHub) {
+            contactHub.classList.remove('visible');
+            contactHub.classList.remove('active');
+        }
     }
 
     // Active Section Link Highlight
