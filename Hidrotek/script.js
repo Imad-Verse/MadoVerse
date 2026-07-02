@@ -638,9 +638,9 @@ function toggleFaq(button) {
 
 // ===== Lightbox =====
 const galleryImages = [
-    'assist/1.jpg', 'assist/2.jpg', 'assist/3.jpg', 'assist/4.jpg',
-    'assist/5.jpg', 'assist/6.jpg', 'assist/7.jpg', 'assist/8.jpg',
-    'assist/9.jpg', 'assist/10.jpg', 'assist/11.jpg'
+    'assets/1.webp', 'assets/2.webp', 'assets/3.webp', 'assets/4.webp',
+    'assets/5.webp', 'assets/6.webp', 'assets/7.webp', 'assets/8.webp',
+    'assets/9.webp', 'assets/10.webp', 'assets/11.webp'
 ];
 let currentImageIndex = 0;
 const lightboxCounter = document.getElementById('lightboxCounter');
