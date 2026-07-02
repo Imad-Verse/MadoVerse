@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="إذاعة ابن القيم السلفية - أثير واضح لسلفٍ صالح. بث مباشر على مدار الساعة للمحاضرات والدروس والقرآن الكريم.">
+    <meta name="keywords" content="إذاعة ابن القيم, راديو إسلامي, بث مباشر, قرآن كريم, دروس إسلامية, السلف الصالح">
+    <meta property="og:title" content="إذاعة ابن القيم السلفية">
+    <meta property="og:description" content="أثير واضح لسلفٍ صالح - بث مباشر على مدار الساعة">
+    <meta property="og:image" content="image/cover.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>إذاعة ابن القيم السلفية | أثير واضح لسلفٍ صالح</title>
+    <link rel="icon" type="image/x-icon" href="image/profil.ico">
+    <meta name="theme-color" content="#0a0e14">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background Decorations -->
+    <div class="bg-pattern"></div>
+    <div class="bg-glow"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-content">
+            <a href="#" class="nav-brand">
+                <img src="image/profil.jpg" alt="شعار إذاعة ابن القيم">
+                <span class="nav-brand-text">إذاعة ابن القيم</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#home">الرئيسية</a>
+                <a href="#player">الاستماع</a>
+                <a href="#about">عن الإذاعة</a>
+                <a href="#features">مميزاتنا</a>
+                <a href="#schedule">جدول البث</a>
+                <a href="#social">تواصل معنا</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="nav-overlay" id="navOverlay"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <img src="image/cover.jpg" alt="خلفية إذاعة ابن القيم">
+        </div>
+        <div class="hero-content">
+            <img src="image/profil.jpg" alt="شعار إذاعة ابن القيم" class="hero-logo">
+            <h1 class="hero-title">إذاعة ابن القيم السلفية</h1>
+            <p class="hero-subtitle">الصفحة الرسمية لإذاعة ابن القيم</p>
+            <p class="hero-tagline">❝ أثير واضح لسلفٍ صالح ❞</p>
+            <div class="islamic-divider"><span>✦</span></div>
+            <br>
+            <a href="#player" class="btn-primary" id="heroListenBtn">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+                </svg>
+                استمع الآن
+            </a>
+        </div>
+    </section>
+
+    <!-- Audio Player Section -->
+    <section class="player-section" id="player">
+        <div class="container">
+            <div class="player-card reveal">
+                <div class="player-status" id="playerStatus">
+                    <span class="live-dot" id="liveDot"></span>
+                    <span id="playerStatusText">بث مباشر على مدار الساعة</span>
+                </div>
+                <h2 class="player-title">مُشغّل البث المباشر</h2>
+                <p class="player-desc">استمع إلى إذاعة ابن القيم السلفية مباشرةً</p>
+
+                <!-- Audio Visualizer -->
+                <div class="audio-visualizer" id="audioVisualizer">
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                </div>
+
+                <div class="player-controls">
+                    <div class="volume-control">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
+                    </div>
+                    <button class="btn-play" id="mainPlayBtn" aria-label="تشغيل البث">
+                        <svg width="28" height="28" fill="currentColor" viewBox="0 0 16 16" id="mainPlayIcon">
+                            <path
+                                d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+                        </svg>
+                    </button>
+                </div>
+
+                <audio id="radioAudio" preload="none">
+                    <source src="https://c38.radioboss.fm:8323/stream" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">تعرّف علينا</span>
+                <h2 class="section-title">عن إذاعة ابن القيم</h2>
+                <p class="section-desc">منبر علمي سلفي يبث على مدار الساعة</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-image-wrapper reveal">
+                    <div class="about-image">
+                        <img src="image/cover.jpg" alt="غلاف إذاعة ابن القيم السلفية" loading="lazy">
+                    </div>
+                </div>
+                <div class="about-text reveal">
+                    <h3>منبرٌ على منهج السلف الصالح</h3>
+                    <p>
+                        إذاعة ابن القيم السلفية هي إذاعة إسلامية تبث على مدار الساعة، تقدم المحاضرات والدروس العلمية
+                        والقرآن الكريم وفق منهج أهل السنة والجماعة.
+                    </p>
+                    <p>
+                        تسعى الإذاعة لنشر العلم الشرعي الصحيح المأخوذ من الكتاب والسنة بفهم سلف الأمة، وتقريب العلم
+                        النافع للمسلمين في كل مكان.
+                    </p>
+                    <div class="about-quote">
+                        <p>« العلم قال الله قال رسوله، قال الصحابة ليس بالتمويه »</p>
+                        <cite>— الإمام ابن القيم رحمه الله</cite>
+                    </div>
+                </div>
+            </div>
+            <!-- Stats Row -->
+            <div class="stats-row reveal">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="24">0</div>
+                    <div class="stat-label">ساعة بث يومياً</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="7">0</div>
+                    <div class="stat-label">أيام في الأسبوع</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="6">0</div>
+                    <div class="stat-label">برامج يومية</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="5">0</div>
+                    <div class="stat-label">منصات تواصل</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">لماذا إذاعتنا</span>
+                <h2 class="section-title">مميزات الإذاعة</h2>
+                <p class="section-desc">نقدم لكم محتوى علمي متميز على مدار الساعة</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📻</div>
+                    <h3>بث مباشر 24/7</h3>
+                    <p>بث مستمر على مدار الساعة دون انقطاع، يمكنك الاستماع في أي وقت ومن أي مكان في العالم.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📖</div>
+                    <h3>القرآن الكريم</h3>
+                    <p>تلاوات خاشعة من أفضل القراء، مع تفسير وتدبر لآيات كتاب الله عز وجل.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🎓</div>
+                    <h3>دروس علمية</h3>
+                    <p>محاضرات ودروس علمية لكبار العلماء في العقيدة والفقه والحديث والتفسير.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🕌</div>
+                    <h3>منهج سلفي</h3>
+                    <p>التزام تام بمنهج أهل السنة والجماعة وفهم السلف الصالح للكتاب والسنة.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🌍</div>
+                    <h3>وصول عالمي</h3>
+                    <p>يمكن الاستماع من أي مكان في العالم عبر الإنترنت بجودة صوت عالية ونقية.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">💡</div>
+                    <h3>محتوى متنوع</h3>
+                    <p>برامج متنوعة تشمل الفتاوى والمواعظ والسيرة النبوية والرقائق والأذكار.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="section schedule-section" id="schedule">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">البرنامج اليومي</span>
+                <h2 class="section-title">جدول البث</h2>
+                <p class="section-desc">برنامج يومي متنوع يغطي جميع جوانب العلم الشرعي</p>
+            </div>
+            <div class="schedule-grid">
+                <div class="schedule-item reveal">
+                    <div class="schedule-time">05:00 - 07:00</div>
+                    <div class="schedule-divider"></div>
+                    <div class="schedule-info">
+                        <h4>أذكار الصباح والقرآن الكريم</h4>
+                        <p>تلاوات خاشعة مع أذكار الصباح المباركة</p>
+                    </div>
+                </div>
+                <div class="schedule-item reveal">
+                    <div class="schedule-time">07:00 - 10:00</div>
+                    <div class="schedule-divider"></div>
+                    <div class="schedule-info">
+                        <h4>دروس في العقيدة</h4>
+                        <p>شرح كتب العقيدة لأئمة السلف الصالح</p>
+                    </div>
+                </div>
+                <div class="schedule-item reveal">
+                    <div class="schedule-time">10:00 - 12:00</div>
+                    <div class="schedule-divider"></div>
+                    <div class="schedule-info">
+                        <h4>شرح الأحاديث النبوية</h4>
+                        <p>شرح الأحاديث من الصحيحين والسنن</p>
+                    </div>
+                </div>
+                <div class="schedule-item reveal">
+                    <div class="schedule-time">14:00 - 16:00</div>
+                    <div class="schedule-divider"></div>
+                    <div class="schedule-info">
+                        <h4>دروس في الفقه</h4>
+                        <p>فقه العبادات والمعاملات على المذاهب الأربعة</p>
+                    </div>
+                </div>
+                <div class="schedule-item reveal">
+                    <div class="schedule-time">17:00 - 19:00</div>
+                    <div class="schedule-divider"></div>
+                    <div class="schedule-info">
+                        <h4>أذكار المساء والرقائق</h4>
+                        <p>مواعظ ورقائق تلين القلوب وتقربها من الله</p>
+                    </div>
+                </div>
+                <div class="schedule-item reveal">
+                    <div class="schedule-time">21:00 - 23:00</div>
+                    <div class="schedule-divider"></div>
+                    <div class="schedule-info">
+                        <h4>السيرة النبوية والتاريخ</h4>
+                        <p>دروس في سيرة النبي ﷺ وتاريخ الإسلام</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="section" id="social">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">ابقَ على تواصل</span>
+                <h2 class="section-title">تابعنا على وسائل التواصل</h2>
+                <p class="section-desc">تابعونا على منصات التواصل الاجتماعي للبقاء على اطلاع بكل جديد</p>
+            </div>
+            <div class="social-grid reveal">
+                <a href="https://www.facebook.com/IbnQimRadio" target="_blank" rel="noopener noreferrer"
+                    class="social-card" id="socialFacebook">
+                    <div class="social-icon facebook">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                    </div>
+                    <span>فيسبوك</span>
+                </a>
+                <a href="https://www.youtube.com/@ibnqimfm" target="_blank" rel="noopener noreferrer"
+                    class="social-card" id="socialYoutube">
+                    <div class="social-icon youtube">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                        </svg>
+                    </div>
+                    <span>يوتيوب</span>
+                </a>
+                <a href="https://x.com/IbnQimfm" target="_blank" rel="noopener noreferrer" class="social-card"
+                    id="socialTwitter">
+                    <div class="social-icon twitter">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </div>
+                    <span>إكس (تويتر)</span>
+                </a>
+                <a href="https://t.me/IbnQimFM" target="_blank" rel="noopener noreferrer" class="social-card"
+                    id="socialTelegram">
+                    <div class="social-icon telegram">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                        </svg>
+                    </div>
+                    <span>تيليجرام</span>
+                </a>
+                <a href="https://www.whatsapp.com/channel/0029Va9ymF2D8SDyiIXXXo2O" target="_blank"
+                    rel="noopener noreferrer" class="social-card" id="socialWhatsapp">
+                    <div class="social-icon whatsapp">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
+                        </svg>
+                    </div>
+                    <span>واتساب</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-box reveal">
+                <h2>شارك الأجر.. انشر الإذاعة</h2>
+                <p>ساهم في نشر العلم النافع بمشاركة إذاعة ابن القيم مع أهلك وأصدقائك، فالدال على الخير كفاعله.</p>
+                <button class="btn-primary" id="shareBtn" onclick="shareRadio()">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
+                    </svg>
+                    مشاركة الإذاعة
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-brand">
+                        <img src="image/profil.jpg" alt="شعار إذاعة ابن القيم">
+                        <span>إذاعة ابن القيم</span>
+                    </div>
+                    <p>إذاعة إسلامية سلفية تبث على مدار الساعة، تهدف لنشر العلم الشرعي الصحيح المبني على الكتاب والسنة
+                        بفهم سلف الأمة.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#player">الاستماع</a></li>
+                        <li><a href="#about">عن الإذاعة</a></li>
+                        <li><a href="#schedule">جدول البث</a></li>
+                        <li><a href="#social">تواصل معنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>تواصل معنا</h4>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>@IbnQimFM</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>بث عبر الإنترنت</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>على مدار الساعة</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© <span id="currentYear">2025</span> إذاعة ابن القيم السلفية — جميع الحقوق محفوظة</p>
+                <div class="footer-bottom-links">
+                    <span>تطوير:</span>
+                    <a href="https://abulharith-imad.site/" target="_blank" rel="noopener noreferrer">بعلول عماد
+                        الدين</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Player Bar -->
+    <div class="floating-player" id="floatingPlayer">
+        <div class="floating-player-info">
+            <img src="image/profil.jpg" alt="ابن القيم">
+            <span>إذاعة ابن القيم السلفية</span>
+        </div>
+        <button class="floating-btn-play" id="floatingPlayBtn" aria-label="تشغيل البث">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" id="floatingPlayIcon">
+                <path
+                    d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+            </svg>
+        </button>
+        <div class="floating-volume">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <input type="range" class="volume-slider" id="floatingVolumeSlider" min="0" max="100" value="80">
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="العودة للأعلى">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6" />
+        </svg>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>

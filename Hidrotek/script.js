@@ -1,6 +1,8 @@
 // ===== Translation Dictionary =====
 const translations = {
     ar: {
+        "doc-title": "هيدروتاك | Hidrotek - إنشاء وتغليف الأحواض المائية البلاستيكية",
+        "doc-desc": "مؤسسة هيدروتاك متخصصة في حفر وتغليف الأحواض المائية البلاستيكية بتقنية Geomembrane PEHD. جودة عالية، دقة في التنفيذ، أسعار مدروسة مع ضمان 20 سنة.",
         "nav-home": "الرئيسية",
         "nav-about": "من نحن",
         "nav-services": "خدماتنا",
@@ -143,6 +145,8 @@ const translations = {
         ]
     },
     fr: {
+        "doc-title": "Hidrotek | Revêtement et Installation de Bassins Agricoles en Géomembrane",
+        "doc-desc": "Hidrotek est spécialisée dans le terrassement et le revêtement de bassins d'eau en géomembrane PEHD. Haute qualité, précision et garantie de 20 ans.",
         "nav-home": "Accueil",
         "nav-about": "À Propos",
         "nav-services": "Services",
@@ -304,6 +308,17 @@ function setLanguage(lang) {
     // Set HTML Dir and Lang
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    // Update Document title & description
+    if (translations[lang]) {
+        if (translations[lang]['doc-title']) {
+            document.title = translations[lang]['doc-title'];
+        }
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && translations[lang]['doc-desc']) {
+            metaDesc.setAttribute('content', translations[lang]['doc-desc']);
+        }
+    }
 
     // Translate all static texts
     document.querySelectorAll('[data-i18n]').forEach(element => {

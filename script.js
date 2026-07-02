@@ -96,8 +96,15 @@ navLinks.querySelectorAll('a').forEach(link => {
 
 // ===== Active Nav Link on Scroll =====
 function updateActiveNavLink() {
-  const sections = document.querySelectorAll('section[id]');
   const navLinksAll = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+  const linkedSectionIds = Array.from(navLinksAll).map(link => {
+    const href = link.getAttribute('href');
+    return href.startsWith('#') ? href.substring(1) : null;
+  }).filter(Boolean);
+
+  const sections = Array.from(document.querySelectorAll('section[id]')).filter(section => 
+    linkedSectionIds.includes(section.getAttribute('id'))
+  );
 
   let current = '';
   sections.forEach(section => {
