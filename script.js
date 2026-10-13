@@ -37,32 +37,40 @@ const scrollTopBtn = document.getElementById('scrollTopBtn');
 // ===== Scroll Progress Bar =====
 const scrollProgressBar = document.getElementById('scrollProgress');
 
+// Scroll handler with requestAnimationFrame for performance
+let ticking = false;
 window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
 
-  // Navbar background
-  if (scrollY > 60) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
+      // Navbar background
+      if (scrollY > 60) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      // Scroll to top button
+      if (scrollY > 400) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+
+      // Scroll progress bar
+      if (scrollProgressBar) {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+        scrollProgressBar.style.width = `${progress}%`;
+      }
+
+      // Active nav link
+      updateActiveNavLink();
+      ticking = false;
+    });
+    ticking = true;
   }
-
-  // Scroll to top button
-  if (scrollY > 400) {
-    scrollTopBtn.classList.add('visible');
-  } else {
-    scrollTopBtn.classList.remove('visible');
-  }
-
-  // Scroll progress bar
-  if (scrollProgressBar) {
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
-    scrollProgressBar.style.width = `${progress}%`;
-  }
-
-  // Active nav link
-  updateActiveNavLink();
 });
 
 // ===== Scroll to Top =====
@@ -207,10 +215,11 @@ contactForm.addEventListener('submit', (e) => {
 
   const name = document.getElementById('clientName').value.trim();
   const serviceSelect = document.getElementById('serviceType');
-  const service = serviceSelect.options[serviceSelect.selectedIndex].text;
+  const serviceValue = serviceSelect.value;
+  const serviceText = serviceSelect.options[serviceSelect.selectedIndex].text;
   const description = document.getElementById('projectDesc').value.trim();
 
-  if (!name || !service || !description) {
+  if (!name || !serviceValue || !description) {
     const errorText = (translations[currentLang] && translations[currentLang]['notif-error']) || 'يرجى ملء جميع الحقول المطلوبة';
     showNotification(errorText, 'error');
     // Shake the submit button to alert user
@@ -224,7 +233,7 @@ contactForm.addEventListener('submit', (e) => {
   const template = (translations[currentLang] && translations[currentLang]['wa-msg-title']) || 'الاسم: {name}\nالخدمة: {service}\nالوصف: {description}';
   const message = template
     .replace('{name}', name)
-    .replace('{service}', service)
+    .replace('{service}', serviceText)
     .replace('{description}', description);
 
   const encodedMessage = encodeURIComponent(message);
@@ -275,14 +284,17 @@ function showNotification(message, type = 'info') {
   `;
 
   // Determine direction
-  const isLTR = document.documentElement.getAttribute('dir') === 'ltr';
+  const isRTL = document.documentElement.getAttribute('dir') !== 'ltr';
+  const sideIn = isRTL ? 'right' : 'left';
+  const sideOut = isRTL ? 'left' : 'right';
+  const slideInFrom = isRTL ? 'translateX(120%)' : 'translateX(-120%)';
 
   // Styles
   Object.assign(notification.style, {
     position: 'fixed',
     top: '24px',
-    [isLTR ? 'right' : 'right']: isLTR ? 'auto' : '24px',
-    [isLTR ? 'left' : 'left']: isLTR ? 'auto' : 'auto',
+    [sideIn]: '24px',
+    [sideOut]: 'auto',
     zIndex: '10000',
     padding: '16px 24px',
     borderRadius: '12px',
@@ -291,23 +303,14 @@ function showNotification(message, type = 'info') {
     color: type === 'success' ? '#25d366' : type === 'error' ? '#ff4d5e' : '#0088cc',
     backdropFilter: 'blur(20px)',
     boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-    transform: isLTR ? 'translateX(-120%)' : 'translateX(120%)',
+    transform: slideInFrom,
     transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-    fontFamily: isLTR ? "'Outfit', sans-serif" : "'Tajawal', sans-serif",
+    fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Outfit', sans-serif",
     fontSize: '0.95rem',
     fontWeight: '600',
     maxWidth: '380px',
-    direction: isLTR ? 'ltr' : 'rtl'
+    direction: isRTL ? 'rtl' : 'ltr'
   });
-
-  // Position on correct side
-  if (isLTR) {
-    notification.style.left = '24px';
-    notification.style.right = 'auto';
-  } else {
-    notification.style.right = '24px';
-    notification.style.left = 'auto';
-  }
 
   const notifContent = notification.querySelector('.notification-content');
   Object.assign(notifContent.style, {
@@ -325,7 +328,7 @@ function showNotification(message, type = 'info') {
 
   // Auto remove
   setTimeout(() => {
-    notification.style.transform = isLTR ? 'translateX(-120%)' : 'translateX(120%)';
+    notification.style.transform = slideInFrom;
     setTimeout(() => notification.remove(), 500);
   }, 4000);
 }
@@ -333,8 +336,11 @@ function showNotification(message, type = 'info') {
 // ===== Smooth Scroll for Anchor Links =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    // Skip empty hash or hash-only links
+    if (!href || href === '#') return;
     e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
+    const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
     }
@@ -566,6 +572,12 @@ if (langToggle) {
     const nextLang = currentLang === 'ar' ? 'en' : 'ar';
     setLanguage(nextLang);
   });
+}
+
+// ===== Dynamic Copyright Year =====
+const copyrightYear = document.getElementById('copyrightYear');
+if (copyrightYear) {
+  copyrightYear.textContent = new Date().getFullYear();
 }
 
 // ===== FAQ Accordion =====

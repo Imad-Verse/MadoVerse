@@ -17,6 +17,11 @@
   <meta name="theme-color" content="#0a0a0f">
   <link rel="icon" href="assets/profile.png" type="image/png">
 
+  <!-- Preconnect for faster font loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -45,7 +50,7 @@
   <!-- ===== Navbar ===== -->
   <nav class="navbar" id="navbar">
     <div class="container">
-      <a href="#" class="nav-logo">
+      <a href="#hero" class="nav-logo">
         <img src="assets/profile.png" alt="MadoVerse Logo">
         <span>MadoVerse</span>
       </a>
@@ -224,7 +229,7 @@
               <h3 data-i18n="project-merabet">صفحة أبو معاذ محمد مرابط</h3>
               <p data-i18n="project-merabet-desc">صفحة ويب شخصية احترافية</p>
               <div class="project-actions">
-                <a href="https://merabet-mohamed.site/" target="_blank" class="btn-preview">
+                <a href="https://merabet-mohamed.site/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                   <i class="fas fa-external-link-alt"></i>
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
@@ -249,7 +254,7 @@
               <h3 data-i18n="project-imad">صفحة أبو الحارث عماد بعلول</h3>
               <p data-i18n="project-imad-desc">صفحة ويب شخصية احترافية</p>
               <div class="project-actions">
-                <a href="https://abulharith-imad.site/" target="_blank" class="btn-preview">
+                <a href="https://abulharith-imad.site/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                   <i class="fas fa-external-link-alt"></i>
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
@@ -280,7 +285,7 @@
               <h3 data-i18n="project-paella">مطعم Lotfi Paella للمأكولات البحرية</h3>
               <p data-i18n="project-paella-desc">موقع تجاري لمطعم متخصص</p>
               <div class="project-actions">
-                <a href="https://lotfi-paella.site/" target="_blank" class="btn-preview">
+                <a href="https://lotfi-paella.site/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                   <i class="fas fa-external-link-alt"></i>
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
@@ -334,7 +339,7 @@
               <h3 data-i18n="project-birr">موقع مكتبة بر الوالدين</h3>
               <p data-i18n="project-birr-desc">منصة رقمية دعوية</p>
               <div class="project-actions">
-                <a href="https://birralwalidayn.site/" target="_blank" class="btn-preview">
+                <a href="https://birralwalidayn.site/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                   <i class="fas fa-external-link-alt"></i>
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
@@ -356,7 +361,7 @@
               <h3 data-i18n="project-shehab">موقع مركز الشهاب الدعوي</h3>
               <p data-i18n="project-shehab-desc">منصة رقمية دعوية</p>
               <div class="project-actions">
-                <a href="https://alshehabdz.site/" target="_blank" class="btn-preview">
+                <a href="https://alshehabdz.site/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                   <i class="fas fa-external-link-alt"></i>
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
@@ -378,7 +383,7 @@
               <h3 data-i18n="project-ibnqim">اذاعة ابن القيم العلمية</h3>
               <p data-i18n="project-ibnqim-desc">منصة رقمية دعوية</p>
               <div class="project-actions">
-                <a href="https://madoverse.site/IbnQimFm/" target="_blank" class="btn-preview">
+                <a href="https://madoverse.site/IbnQimFm/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                   <i class="fas fa-external-link-alt"></i>
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
@@ -407,7 +412,7 @@
             <h3 data-i18n="project-birr-blog">مدونة مكتبة بر الوالدين</h3>
             <p data-i18n="project-birr-blog-desc">مدونة بلوجر بقالب احترافي مخصص</p>
             <div class="project-actions">
-              <a href="https://birralwalidayn.blogspot.com/" target="_blank" class="btn-preview">
+              <a href="https://birralwalidayn.blogspot.com/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                 <i class="fas fa-external-link-alt"></i>
                 <span data-i18n="project-preview">معاينة</span>
               </a>
@@ -426,7 +431,7 @@
             <h3 data-i18n="project-shehab-blog">مدونة مركز الشهاب</h3>
             <p data-i18n="project-shehab-blog-desc">مدونة بلوجر بقالب احترافي مخصص</p>
             <div class="project-actions">
-              <a href="https://alshehabdz.blogspot.com/" target="_blank" class="btn-preview">
+              <a href="https://alshehabdz.blogspot.com/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                 <i class="fas fa-external-link-alt"></i>
                 <span data-i18n="project-preview">معاينة</span>
               </a>
@@ -783,7 +788,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© 2025 <a href="#">MadoVerse - مادوفيرس</a>. <span data-i18n="footer-rights">جميع الحقوق محفوظة.</span></p>
+        <p>© <span id="copyrightYear">2025</span> <a href="#hero">MadoVerse - مادوفيرس</a>. <span data-i18n="footer-rights">جميع الحقوق محفوظة.</span></p>
         <div class="developer-credit">
           <i class="fas fa-code"></i>
           <span data-i18n="footer-dev">تطوير </span> <a href="https://abulharith-imad.site/" target="_blank"
