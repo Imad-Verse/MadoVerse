@@ -71,7 +71,7 @@ const translations = {
     "project-birr-desc": "منصة رقمية دعوية",
     "project-shehab": "موقع مركز الشهاب الدعوي",
     "project-shehab-desc": "منصة رقمية دعوية",
-    "project-ibnqim": "اذاعة ابن القيم العلمية",
+    "project-ibnqim": "إذاعة ابن القيم العلمية",
     "project-ibnqim-desc": "منصة رقمية دعوية للبث المباشر",
     "project-hidrotek": "موقع مؤسسة هيدروتاك للأحواض المائية",
     "project-hidrotek-desc": "موقع تجاري متكامل مع حاسبة ذكية لسعة وعزل الأحواض",
@@ -187,7 +187,7 @@ const translations = {
     "badge-closed": "Closed Now",
     "hero-title-1": "We build your ",
     "hero-title-highlight": "digital presence",
-    "hero-title-2": " with ultimate precision",
+    "hero-title-2": "with ultimate precision",
     "hero-desc": "MadoVerse — Your trusted tech partner. We transform your ideas into stunning digital realities with modern designs and integrated technical solutions that boost your presence and build trust.",
     "hero-btn-portfolio": "Our Work",
     "hero-btn-contact": "Get in Touch",
@@ -224,8 +224,8 @@ const translations = {
     "cat-blogger": "Professional Blogger Blogs",
 
     "project-preview": "Preview",
-    "project-order": "Order Similar",
-    "project-order-f": "Order Similar",
+    "project-order": "Order Similar Project",
+    "project-order-f": "Order Similar Project",
 
     // Project Names
     "project-merabet": "Abu Muadh Mohamed Merabet Profile",
@@ -273,8 +273,8 @@ const translations = {
 
     // Contact Cards
     "card-whatsapp": "WhatsApp",
-    "card-call1": "Call (No. 1)",
-    "card-call2": "Call (No. 2)",
+    "card-call1": "Phone Line 1",
+    "card-call2": "Phone Line 2",
     "card-telegram": "Telegram",
     "card-facebook": "Facebook",
     "card-hours": "Working Hours",
@@ -293,8 +293,8 @@ const translations = {
     "btn-about-tg": "Telegram",
     "btn-about-wa": "WhatsApp",
     "btn-about-web": "Personal Site",
-    "btn-about-phone1": "Call 1",
-    "btn-about-phone2": "Call 2",
+    "btn-about-phone1": "Phone 1",
+    "btn-about-phone2": "Phone 2",
     "btn-about-map": "View on Map",
 
     // Footer

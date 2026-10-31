@@ -10,23 +10,90 @@
   <meta name="keywords"
     content="مادوفيرس, MadoVerse, تصميم مواقع, صفحات شخصية, مدونات بلوجر, بوتات تليجرام, حلول تقنية">
   <meta name="author" content="بعلول عماد الدين">
-  <meta property="og:title" content="MadoVerse - مادوفيرس">
-  <meta property="og:description" content="شريكك التقني الموثوق لبناء حضورك الرقمي بإتقان وإبداع">
-  <meta property="og:image" content="assets/cover.png">
+  <link rel="canonical" href="https://madoverse.site/">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madoverse.site/">
+  <meta property="og:site_name" content="MadoVerse">
+  <meta property="og:title" content="MadoVerse - مادوفيرس | حلولك التقنية بإتقان وإبداع">
+  <meta property="og:description" content="شريكك التقني الموثوق لبناء حضورك الرقمي بإتقان وإبداع. تصاميم عصرية وحلول تقنية متكاملة.">
+  <meta property="og:image" content="https://madoverse.site/assets/cover.png">
+  <meta property="og:image:secure_url" content="https://madoverse.site/assets/cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MadoVerse - حلولك التقنية بإتقان وإبداع">
+  <meta property="og:locale" content="ar_DZ">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://madoverse.site/">
+  <meta name="twitter:title" content="MadoVerse - مادوفيرس | حلولك التقنية بإتقان وإبداع">
+  <meta name="twitter:description" content="شركة مادوفيرس — شريكك التقني الموثوق لبناء حضورك الرقمي. تصميم مواقع، صفحات شخصية، ومدونات وبوتات تليجرام.">
+  <meta name="twitter:image" content="https://madoverse.site/assets/cover.png">
+
   <meta name="theme-color" content="#0a0a0f">
   <link rel="icon" href="assets/profile.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/profile.png">
 
-  <!-- Preconnect for faster font loading -->
+  <!-- Preconnect for faster font and resource loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+  <!-- Google Fonts (Loaded directly for peak Core Web Vitals) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=1.5">
+  <link rel="stylesheet" href="styles.css?v=1.6">
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "MadoVerse - مادوفيرس",
+    "image": "https://madoverse.site/assets/cover.png",
+    "logo": "https://madoverse.site/assets/profile.png",
+    "url": "https://madoverse.site/",
+    "telephone": "+213657565256",
+    "priceRange": "$$",
+    "description": "شركة مادوفيرس — شريكك التقني الموثوق لبناء حضورك الرقمي. نقدم خدمات تصميم المواقع، الصفحات الشخصية، المدونات الاحترافية، وبوتات تليجرام بإتقان وأمان.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "DZ"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Saturday",
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday"
+        ],
+        "opens": "08:00",
+        "closes": "16:00"
+      }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/Abulharith.imad",
+      "https://t.me/Abulharith_imad",
+      "https://abulharith-imad.site/"
+    ]
+  }
+  </script>
+
+  <!-- Fallback if JavaScript is disabled -->
+  <noscript>
+    <style>#preloader { display: none !important; }</style>
+  </noscript>
 </head>
 
 <body>
@@ -40,7 +107,7 @@
   <div class="preloader" id="preloader">
     <div class="preloader-content">
       <div class="preloader-logo-wrapper">
-        <img src="assets/profile.png" alt="MadoVerse" class="preloader-logo">
+        <img src="assets/profile.png" alt="MadoVerse" class="preloader-logo" width="80" height="80">
       </div>
       <div class="preloader-text">MadoVerse</div>
       <div class="preloader-bar"></div>
@@ -51,7 +118,7 @@
   <nav class="navbar" id="navbar">
     <div class="container">
       <a href="#hero" class="nav-logo">
-        <img src="assets/profile.png" alt="MadoVerse Logo">
+        <img src="assets/profile.png" alt="MadoVerse Logo" width="44" height="44">
         <span>MadoVerse</span>
       </a>
 
@@ -70,7 +137,7 @@
           <i class="fas fa-globe"></i>
           <span>EN</span>
         </button>
-        <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+        <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navLinks">
           <span></span>
           <span></span>
           <span></span>
@@ -134,7 +201,7 @@
 
       <div class="hero-image">
         <div class="hero-image-wrapper">
-          <img src="assets/profile.png" alt="MadoVerse - مادوفيرس">
+          <img src="assets/profile.png" alt="MadoVerse - مادوفيرس" width="380" height="380">
         </div>
       </div>
     </div>
@@ -160,7 +227,7 @@
             <i class="fas fa-user-circle"></i>
           </div>
           <h3 data-i18n="service-personal-title">صفحات ويب شخصية</h3>
-          <p data-i18n="service-personal-desc">تصميم صفحات شخصية احترافية تعكس هوية تبرز مهاراتك بأسلوب عصري ومميز</p>
+          <p data-i18n="service-personal-desc">تصميم صفحات شخصية احترافية تعكس هويتك وتبرز مهاراتك بأسلوب عصري ومميز</p>
         </div>
 
         <div class="service-card animate-on-scroll">
@@ -222,7 +289,7 @@
           <!-- مشروع 1 -->
           <div class="project-card">
             <div class="project-image">
-              <img src="https://merabet-mohamed.site/cover.jpg" alt="صفحة أبو معاذ محمد مرابط" loading="lazy">
+              <img src="https://merabet-mohamed.site/cover.jpg" alt="صفحة أبو معاذ محمد مرابط" loading="lazy" width="400" height="200">
               <div class="project-image-overlay"></div>
             </div>
             <div class="project-info">
@@ -234,7 +301,7 @@
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
                 <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9%20%D9%85%D8%AB%D9%84%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%A3%D8%A8%D9%88%20%D9%85%D8%B9%D8%A7%D8%B0%20%D9%85%D8%AD%D9%85%D8%AF%20%D9%85%D8%B1%D8%A7%D8%A8%D8%B7"
-                  target="_blank" class="btn-order">
+                  target="_blank" rel="noopener noreferrer" class="btn-order">
                   <i class="fas fa-shopping-cart"></i>
                   <span data-i18n="project-order">اطلب مثله</span>
                 </a>
@@ -247,7 +314,7 @@
             <div class="project-image">
               <img
                 src="https://lh3.googleusercontent.com/-jMmVzv1PoHo/Z5nm3U4QngI/AAAAAAAAEp0/OdJaw4vDrPM7dsatgKV8VBIhF1OSmRL-gCNcBGAsYHQ/s1080/IMG_ORG_1738139336484.jpeg"
-                alt="صفحة ابو الحارث عماد بعلول" loading="lazy">
+                alt="صفحة ابو الحارث عماد بعلول" loading="lazy" width="400" height="200">
               <div class="project-image-overlay"></div>
             </div>
             <div class="project-info">
@@ -259,7 +326,7 @@
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
                 <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9%20%D9%85%D8%AB%D9%84%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%A3%D8%A8%D9%88%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B1%D8%AB%20%D8%B9%D9%85%D8%A7%D8%AF"
-                  target="_blank" class="btn-order">
+                  target="_blank" rel="noopener noreferrer" class="btn-order">
                   <i class="fas fa-shopping-cart"></i>
                   <span data-i18n="project-order">اطلب مثله</span>
                 </a>
@@ -278,7 +345,7 @@
         <div class="portfolio-grid">
           <div class="project-card">
             <div class="project-image">
-              <img src="https://lotfi-paella.site/assets/cover.png" alt="مطعم Lotfi Paella" loading="lazy">
+              <img src="https://lotfi-paella.site/assets/cover.png" alt="مطعم Lotfi Paella" loading="lazy" width="400" height="200">
               <div class="project-image-overlay"></div>
             </div>
             <div class="project-info">
@@ -290,7 +357,7 @@
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
                 <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%88%D9%82%D8%B9%20%D8%AA%D8%AC%D8%A7%D8%B1%D9%8A%20%D9%85%D8%AB%D9%84%20%D9%85%D9%88%D9%82%D8%B9%20Lotfi%20Paella"
-                  target="_blank" class="btn-order">
+                  target="_blank" rel="noopener noreferrer" class="btn-order">
                   <i class="fas fa-shopping-cart"></i>
                   <span data-i18n="project-order">اطلب مثله</span>
                 </a>
@@ -301,19 +368,19 @@
           <!-- مشروع هيدروتاك -->
           <div class="project-card">
             <div class="project-image">
-              <img src="Hidrotek/assets/cover1.png" alt="موقع مؤسسة هيدروتاك" loading="lazy">
+              <img src="Hidrotek/assets/cover1.png" alt="موقع مؤسسة هيدروتاك" loading="lazy" width="400" height="200">
               <div class="project-image-overlay"></div>
             </div>
             <div class="project-info">
               <h3 data-i18n="project-hidrotek">موقع مؤسسة هيدروتاك للأحواض المائية</h3>
               <p data-i18n="project-hidrotek-desc">موقع تجاري متكامل مع حاسبة ذكية</p>
               <div class="project-actions">
-                <a href="Hidrotek/" target="_blank" class="btn-preview">
+                <a href="Hidrotek/" target="_blank" rel="noopener noreferrer" class="btn-preview">
                   <i class="fas fa-external-link-alt"></i>
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
                 <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%88%D9%82%D8%B9%20%D8%AA%D8%AC%D8%A7%D8%B1%D9%8A%20%D9%85%D8%AB%D9%84%20%D9%85%D9%88%D9%82%D8%B9%20%D9%87%D9%8A%D8%AF%D8%B1%D9%88%D8%AA%D8%A7%D9%83"
-                  target="_blank" class="btn-order">
+                  target="_blank" rel="noopener noreferrer" class="btn-order">
                   <i class="fas fa-shopping-cart"></i>
                   <span data-i18n="project-order">اطلب مثله</span>
                 </a>
@@ -332,7 +399,7 @@
         <div class="portfolio-grid">
           <div class="project-card">
             <div class="project-image">
-              <img src="https://birralwalidayn.site/assets/images/cover.png" alt="مكتبة بر الوالدين" loading="lazy">
+              <img src="https://birralwalidayn.site/assets/images/cover.png" alt="مكتبة بر الوالدين" loading="lazy" width="400" height="200">
               <div class="project-image-overlay"></div>
             </div>
             <div class="project-info">
@@ -344,7 +411,7 @@
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
                 <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%88%D9%82%D8%B9%20%D8%AF%D8%B9%D9%88%D9%8A%20%D9%85%D8%AB%D9%84%20%D9%85%D9%88%D9%82%D8%B9%20%D9%85%D9%83%D8%AA%D8%A8%D8%A9%20%D8%A8%D8%B1%20%D8%A7%D9%84%D9%88%D8%A7%D9%84%D8%AF%D9%8A%D9%86"
-                  target="_blank" class="btn-order">
+                  target="_blank" rel="noopener noreferrer" class="btn-order">
                   <i class="fas fa-shopping-cart"></i>
                   <span data-i18n="project-order">اطلب مثله</span>
                 </a>
@@ -354,7 +421,7 @@
 
           <div class="project-card">
             <div class="project-image">
-              <img src="https://alshehabdz.site/cover.jpg" alt="مركز الشهاب الدعوي" loading="lazy">
+              <img src="https://alshehabdz.site/cover.jpg" alt="مركز الشهاب الدعوي" loading="lazy" width="400" height="200">
               <div class="project-image-overlay"></div>
             </div>
             <div class="project-info">
@@ -366,7 +433,7 @@
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
                 <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%88%D9%82%D8%B9%20%D8%AF%D8%B9%D9%88%D9%8A%20%D9%85%D8%AB%D9%84%20%D9%85%D9%88%D9%82%D8%B9%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%B4%D9%87%D8%A7%D8%A8"
-                  target="_blank" class="btn-order">
+                  target="_blank" rel="noopener noreferrer" class="btn-order">
                   <i class="fas fa-shopping-cart"></i>
                   <span data-i18n="project-order">اطلب مثله</span>
                 </a>
@@ -376,11 +443,11 @@
 
           <div class="project-card">
             <div class="project-image">
-              <img src="IbnQimFm/image/cover.jpg" alt="اذاعة ابن القيم العلمية" loading="lazy">
+              <img src="IbnQimFm/image/cover.jpg" alt="إذاعة ابن القيم العلمية" loading="lazy" width="400" height="200">
               <div class="project-image-overlay"></div>
             </div>
             <div class="project-info">
-              <h3 data-i18n="project-ibnqim">اذاعة ابن القيم العلمية</h3>
+              <h3 data-i18n="project-ibnqim">إذاعة ابن القيم العلمية</h3>
               <p data-i18n="project-ibnqim-desc">منصة رقمية دعوية</p>
               <div class="project-actions">
                 <a href="https://madoverse.site/IbnQimFm/" target="_blank" rel="noopener noreferrer" class="btn-preview">
@@ -388,7 +455,7 @@
                   <span data-i18n="project-preview">معاينة</span>
                 </a>
                 <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%88%D9%82%D8%B9%20%D8%AF%D8%B9%D9%88%D9%8A%20%D9%85%D8%AB%D9%84%20%D9%85%D9%88%D9%82%D8%B9%20%D8%A5%D8%B0%D8%A7%D8%B9%D8%A9%20%D8%A7%D8%A8%D9%86%20%D8%A7%D9%84%D9%82%D9%8A%D9%85"
-                  target="_blank" class="btn-order">
+                  target="_blank" rel="noopener noreferrer" class="btn-order">
                   <i class="fas fa-shopping-cart"></i>
                   <span data-i18n="project-order">اطلب مثله</span>
                 </a>
@@ -417,7 +484,7 @@
                 <span data-i18n="project-preview">معاينة</span>
               </a>
               <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D8%AF%D9%88%D9%86%D8%A9%20%D8%A8%D9%84%D9%88%D8%AC%D8%B1%20%D9%85%D8%AB%D9%84%20%D9%85%D9%83%D8%AA%D8%A8%D8%A9%20%D8%A8%D8%B1%20%D8%A7%D9%84%D9%88%D8%A7%D9%84%D8%AF%D9%8A%D9%86"
-                target="_blank" class="btn-order">
+                target="_blank" rel="noopener noreferrer" class="btn-order">
                 <i class="fas fa-shopping-cart"></i>
                 <span data-i18n="project-order-f">اطلب مثلها</span>
               </a>
@@ -436,7 +503,7 @@
                 <span data-i18n="project-preview">معاينة</span>
               </a>
               <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D8%AF%D9%88%D9%86%D8%A9%20%D8%A8%D9%84%D9%88%D8%AC%D8%B1%20%D9%85%D8%AB%D9%84%20%D9%85%D8%AF%D9%88%D9%86%D8%A9%20%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%B4%D9%87%D8%A7%D8%A8"
-                target="_blank" class="btn-order">
+                target="_blank" rel="noopener noreferrer" class="btn-order">
                 <i class="fas fa-shopping-cart"></i>
                 <span data-i18n="project-order-f">اطلب مثلها</span>
               </a>
@@ -530,7 +597,7 @@
               </div>
             </div>
 
-            <a href="https://wa.me/+213657565256" target="_blank" class="contact-card">
+            <a href="https://wa.me/+213657565256" target="_blank" rel="noopener noreferrer" class="contact-card">
               <div class="contact-card-icon" style="background: rgba(37, 211, 102, 0.1); color: #25d366;">
                 <i class="fab fa-whatsapp"></i>
               </div>
@@ -551,7 +618,7 @@
                 </div>
               </a>
 
-              <a href="tel:0783005216" class="contact-card">
+              <a href="tel:+213783005216" class="contact-card">
                 <div class="contact-card-icon" style="background: rgba(76, 175, 80, 0.1); color: #4caf50;">
                   <i class="fas fa-phone-alt"></i>
                 </div>
@@ -562,7 +629,7 @@
               </a>
             </div>
 
-            <a href="https://t.me/Abulharith_imad" target="_blank" class="contact-card">
+            <a href="https://t.me/Abulharith_imad" target="_blank" rel="noopener noreferrer" class="contact-card">
               <div class="contact-card-icon" style="background: rgba(0, 136, 204, 0.1); color: #0088cc;">
                 <i class="fab fa-telegram-plane"></i>
               </div>
@@ -572,7 +639,7 @@
               </div>
             </a>
 
-            <a href="https://www.facebook.com/Abulharith.imad" target="_blank" class="contact-card">
+            <a href="https://www.facebook.com/Abulharith.imad" target="_blank" rel="noopener noreferrer" class="contact-card">
               <div class="contact-card-icon" style="background: rgba(24, 119, 242, 0.1); color: #1877f2;">
                 <i class="fab fa-facebook-f"></i>
               </div>
@@ -674,7 +741,7 @@
 
       <div class="about-wrapper animate-on-scroll">
         <div class="about-image">
-          <img src="assets/profile.png" alt="MadoVerse - مادوفيرس">
+          <img src="assets/profile.png" alt="MadoVerse - مادوفيرس" width="280" height="280">
         </div>
         <div class="about-content">
           <h3><span data-i18n="about-subtitle-1">شريكك التقني </span><span class="highlight"
@@ -690,19 +757,19 @@
           </p>
 
           <div class="about-social">
-            <a href="https://www.facebook.com/Abulharith.imad" target="_blank" class="social-link facebook">
+            <a href="https://www.facebook.com/Abulharith.imad" target="_blank" rel="noopener noreferrer" class="social-link facebook">
               <i class="fab fa-facebook-f"></i>
               <span data-i18n="btn-about-fb">فايسبوك</span>
             </a>
-            <a href="https://t.me/Abulharith_imad" target="_blank" class="social-link telegram">
+            <a href="https://t.me/Abulharith_imad" target="_blank" rel="noopener noreferrer" class="social-link telegram">
               <i class="fab fa-telegram-plane"></i>
               <span data-i18n="btn-about-tg">تليجرام</span>
             </a>
-            <a href="https://wa.me/+213657565256" target="_blank" class="social-link whatsapp">
+            <a href="https://wa.me/+213657565256" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
               <i class="fab fa-whatsapp"></i>
               <span data-i18n="btn-about-wa">واتساب</span>
             </a>
-            <a href="https://abulharith-imad.site/" target="_blank" class="social-link website">
+            <a href="https://abulharith-imad.site/" target="_blank" rel="noopener noreferrer" class="social-link website">
               <i class="fas fa-globe"></i>
               <span data-i18n="btn-about-web">الموقع الشخصي</span>
             </a>
@@ -710,11 +777,11 @@
               <i class="fas fa-phone-alt"></i>
               <span data-i18n="btn-about-phone1">اتصال 1</span>
             </a>
-            <a href="tel:0783005216" class="social-link phone">
+            <a href="tel:+213783005216" class="social-link phone">
               <i class="fas fa-phone-alt"></i>
               <span data-i18n="btn-about-phone2">اتصال 2</span>
             </a>
-            <a href="https://maps.app.goo.gl/sowvaVbys6QD2Sit9" target="_blank" class="social-link map">
+            <a href="https://maps.app.goo.gl/sowvaVbys6QD2Sit9" target="_blank" rel="noopener noreferrer" class="social-link map">
               <i class="fas fa-map-marker-alt"></i>
               <span data-i18n="btn-about-map">الموقع على الخريطة</span>
             </a>
@@ -730,7 +797,7 @@
       <div class="footer-content">
         <div class="footer-brand">
           <div class="footer-logo">
-            <img src="assets/profile.png" alt="MadoVerse Logo">
+            <img src="assets/profile.png" alt="MadoVerse Logo" width="48" height="48">
             <span>MadoVerse</span>
           </div>
           <p data-i18n="footer-desc">شريكك التقني الموثوق لبناء حضورك الرقمي بإتقان وإبداع. نقدم حلولاً تقنية متكاملة
@@ -740,16 +807,16 @@
             <span data-i18n="footer-hours-text">أوقات العمل: كل الأيام عدا الجمعة (8:00 ص - 4:00 م)</span>
           </div>
           <div class="footer-social">
-            <a href="https://www.facebook.com/Abulharith.imad" target="_blank" aria-label="فايسبوك">
+            <a href="https://www.facebook.com/Abulharith.imad" target="_blank" rel="noopener noreferrer" aria-label="فايسبوك">
               <i class="fab fa-facebook-f"></i>
             </a>
-            <a href="https://t.me/Abulharith_imad" target="_blank" aria-label="تليجرام">
+            <a href="https://t.me/Abulharith_imad" target="_blank" rel="noopener noreferrer" aria-label="تليجرام">
               <i class="fab fa-telegram-plane"></i>
             </a>
-            <a href="https://wa.me/+213657565256" target="_blank" aria-label="واتساب">
+            <a href="https://wa.me/+213657565256" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
               <i class="fab fa-whatsapp"></i>
             </a>
-            <a href="https://abulharith-imad.site/" target="_blank" aria-label="الموقع الشخصي">
+            <a href="https://abulharith-imad.site/" target="_blank" rel="noopener noreferrer" aria-label="الموقع الشخصي">
               <i class="fas fa-globe"></i>
             </a>
           </div>
@@ -788,10 +855,10 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© <span id="copyrightYear">2025</span> <a href="#hero">MadoVerse - مادوفيرس</a>. <span data-i18n="footer-rights">جميع الحقوق محفوظة.</span></p>
+        <p>© <span id="copyrightYear">2026</span> <a href="#hero">MadoVerse - مادوفيرس</a>. <span data-i18n="footer-rights">جميع الحقوق محفوظة.</span></p>
         <div class="developer-credit">
           <i class="fas fa-code"></i>
-          <span data-i18n="footer-dev">تطوير </span> <a href="https://abulharith-imad.site/" target="_blank"
+          <span data-i18n="footer-dev">تطوير </span> <a href="https://abulharith-imad.site/" target="_blank" rel="noopener noreferrer"
             data-i18n="footer-dev-name">بعلول عماد الدين</a>
         </div>
       </div>
@@ -801,7 +868,7 @@
   <!-- ===== Floating Buttons ===== -->
   <div class="floating-buttons">
     <a href="https://wa.me/+213657565256?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%D9%83%D9%85"
-      target="_blank" class="btn-float btn-float-whatsapp" aria-label="تواصل عبر الواتساب" data-i18n-title="float-wa"
+      target="_blank" rel="noopener noreferrer" class="btn-float btn-float-whatsapp" aria-label="تواصل عبر الواتساب" data-i18n-title="float-wa"
       title="تواصل عبر الواتساب">
       <i class="fab fa-whatsapp"></i>
     </a>
@@ -812,8 +879,8 @@
   </div>
 
   <!-- ===== Scripts ===== -->
-  <script src="translations.js?v=1.5" charset="utf-8"></script>
-  <script src="script.js?v=1.5" charset="utf-8"></script>
+  <script src="translations.js?v=1.6" charset="utf-8"></script>
+  <script src="script.js?v=1.6" charset="utf-8"></script>
 </body>
 
 </html>

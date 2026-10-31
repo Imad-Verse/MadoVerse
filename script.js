@@ -84,10 +84,15 @@ const navLinks = document.getElementById('navLinks');
 const navOverlay = document.getElementById('navOverlay');
 
 function toggleMenu() {
-  menuToggle.classList.toggle('active');
+  const isOpen = menuToggle.classList.toggle('active');
   navLinks.classList.toggle('active');
   navOverlay.classList.toggle('active');
-  document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+  menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  const label = isOpen 
+    ? (currentLang === 'ar' ? 'إغلاق القائمة' : 'Close menu')
+    : (currentLang === 'ar' ? 'فتح القائمة' : 'Open menu');
+  menuToggle.setAttribute('aria-label', label);
 }
 
 menuToggle.addEventListener('click', toggleMenu);
@@ -102,20 +107,32 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
-// ===== Active Nav Link on Scroll =====
-function updateActiveNavLink() {
-  const navLinksAll = document.querySelectorAll('.nav-links a:not(.nav-cta)');
-  const linkedSectionIds = Array.from(navLinksAll).map(link => {
-    const href = link.getAttribute('href');
-    return href.startsWith('#') ? href.substring(1) : null;
-  }).filter(Boolean);
+// Close menu with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && navLinks && navLinks.classList.contains('active')) {
+    toggleMenu();
+  }
+});
 
-  const sections = Array.from(document.querySelectorAll('section[id]')).filter(section => 
+// ===== Active Nav Link on Scroll (Optimized with DOM Caching) =====
+const navLinksAll = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+const linkedSectionIds = Array.from(navLinksAll).map(link => {
+  const href = link.getAttribute('href');
+  return href && href.startsWith('#') ? href.substring(1) : null;
+}).filter(Boolean);
+
+let cachedSections = [];
+function refreshCachedSections() {
+  cachedSections = Array.from(document.querySelectorAll('section[id]')).filter(section => 
     linkedSectionIds.includes(section.getAttribute('id'))
   );
+}
+refreshCachedSections();
+window.addEventListener('resize', refreshCachedSections);
 
+function updateActiveNavLink() {
   let current = '';
-  sections.forEach(section => {
+  cachedSections.forEach(section => {
     const sectionTop = section.offsetTop - 110;
     if (window.scrollY >= sectionTop) {
       current = section.getAttribute('id');
@@ -124,8 +141,8 @@ function updateActiveNavLink() {
 
   // Handle edge case when at bottom of page
   if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 10) {
-    if (sections.length > 0) {
-      current = sections[sections.length - 1].getAttribute('id');
+    if (cachedSections.length > 0) {
+      current = cachedSections[cachedSections.length - 1].getAttribute('id');
     }
   }
 
@@ -158,6 +175,13 @@ const observer = new IntersectionObserver((entries, obs) => {
           child.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
           child.style.opacity = '1';
           child.style.transform = 'translateY(0)';
+          // Clean up inline styles once transition completes so CSS :hover rules (e.g. translateY, translateX) work cleanly!
+          setTimeout(() => {
+            child.style.opacity = '';
+            child.style.transform = '';
+            child.style.transition = '';
+            child.style.animationDelay = '';
+          }, 650);
         }, index * 120);
       });
       // Stop observing once visible to prevent flickering on re-scroll
@@ -237,7 +261,7 @@ contactForm.addEventListener('submit', (e) => {
     .replace('{description}', description);
 
   const encodedMessage = encodeURIComponent(message);
-  const whatsappURL = `https://api.whatsapp.com/send/?phone=213657565256&text=${encodedMessage}`;
+  const whatsappURL = `https://wa.me/213657565256?text=${encodedMessage}`;
 
   // Open WhatsApp immediately (synchronous user gesture) to avoid popup blocker
   window.open(whatsappURL, '_blank');
@@ -394,19 +418,21 @@ if (heroStats) {
   heroObserver.observe(heroStats);
 }
 
-// ===== Parallax Particles =====
-document.addEventListener('mousemove', (e) => {
-  const particles = document.querySelectorAll('.particle');
-  const mouseX = e.clientX / window.innerWidth;
-  const mouseY = e.clientY / window.innerHeight;
+// ===== Parallax Particles (Optimized) =====
+const heroParticles = document.querySelectorAll('.particle');
+if (heroParticles.length > 0 && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
 
-  particles.forEach((particle, index) => {
-    const speed = (index + 1) * 0.5;
-    const x = (mouseX - 0.5) * speed * 30;
-    const y = (mouseY - 0.5) * speed * 30;
-    particle.style.transform = `translate(${x}px, ${y}px)`;
+    heroParticles.forEach((particle, index) => {
+      const speed = (index + 1) * 0.5;
+      const x = (mouseX - 0.5) * speed * 30;
+      const y = (mouseY - 0.5) * speed * 30;
+      particle.style.transform = `translate(${x}px, ${y}px)`;
+    });
   });
-});
+}
 
 // ===== Image Error Handling =====
 document.querySelectorAll('.project-image img').forEach(img => {
@@ -444,7 +470,9 @@ if (heroBadge) {
 }
 
 // ===== Translation & Language Toggle =====
-let currentLang = localStorage.getItem('madoverse_lang') || 'ar';
+const urlParams = new URLSearchParams(window.location.search);
+const langParam = urlParams.get('lang');
+let currentLang = (langParam === 'ar' || langParam === 'en') ? langParam : (localStorage.getItem('madoverse_lang') || 'ar');
 
 function setLanguage(lang) {
   currentLang = lang;
@@ -470,6 +498,16 @@ function setLanguage(lang) {
   const langToggle = document.getElementById('langToggle');
   if (langToggle) {
     langToggle.querySelector('span').innerText = lang === 'ar' ? 'EN' : 'عربي';
+  }
+
+  // Update menuToggle aria-label for accessibility
+  const menuToggle = document.getElementById('menuToggle');
+  if (menuToggle) {
+    const isOpen = menuToggle.classList.contains('active');
+    const label = isOpen 
+      ? (lang === 'ar' ? 'إغلاق القائمة' : 'Close menu')
+      : (lang === 'ar' ? 'فتح القائمة' : 'Open menu');
+    menuToggle.setAttribute('aria-label', label);
   }
   
   // Translate static text elements
@@ -654,30 +692,42 @@ function initFormValidation() {
 }
 initFormValidation();
 
-// ===== 3D Tilt Effect on Cards =====
+// ===== 3D Tilt Effect on Cards (Optimized for Mouse Devices) =====
 function initTiltEffect() {
+  const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!isFinePointer) return; // Skip on touch/mobile devices to prevent conflict
+
   const cards = document.querySelectorAll('.service-card, .project-card, .blog-card');
   
   cards.forEach(card => {
+    let leaveTimeout;
+
     card.addEventListener('mousemove', (e) => {
+      clearTimeout(leaveTimeout);
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -6;
-      const rotateY = ((x - centerX) / centerX) * 6;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
       
-      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
     });
 
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
-      card.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+      card.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+      // Clean up inline styles once settled so CSS :hover rules apply cleanly
+      leaveTimeout = setTimeout(() => {
+        card.style.transform = '';
+        card.style.transition = '';
+      }, 400);
     });
 
     card.addEventListener('mouseenter', () => {
-      card.style.transition = 'transform 0.15s ease-out';
+      clearTimeout(leaveTimeout);
+      card.style.transition = 'transform 0.12s ease-out';
     });
   });
 }

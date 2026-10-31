@@ -1,5 +1,4 @@
-/* ===== Google Fonts ===== */
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+/* ===== Fonts loaded asynchronously in index.html for high performance ===== */
 
 /* ===== CSS Variables ===== */
 :root {
@@ -1076,8 +1075,8 @@ textarea:focus-visible {
 .btn-whatsapp-send {
   width: 100%;
   padding: 14px;
-  background: #25d366;
-  color: white;
+  background: #1b9d4c;
+  color: #ffffff;
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   font-weight: 700;
@@ -1087,12 +1086,13 @@ textarea:focus-visible {
   gap: 10px;
   transition: all var(--transition-normal);
   margin-top: 6px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .btn-whatsapp-send:hover {
-  background: #1ebe5a;
+  background: #15833e;
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+  box-shadow: 0 8px 25px rgba(27, 157, 76, 0.4);
 }
 
 .btn-whatsapp-send i {
@@ -2064,5 +2064,17 @@ textarea:focus-visible {
   line-height: 1.9;
   border-top: 1px solid var(--border-color);
   padding-top: 18px;
+}
+
+/* ===== Accessibility — Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
