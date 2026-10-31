@@ -44,6 +44,10 @@ const translations = {
     "service-dawah-desc": "بناء منصات رقمية دعوية تنشر العلم والخير بتصاميم راقية ومحتوى منظم",
     "service-bot-title": "بوتات تليجرام",
     "service-bot-desc": "تطوير بوتات تليجرام مخصصة بميزات متقدمة تخدم مشروعك وتسهّل تفاعلك",
+    "service-graphic-title": "تصميم جرافيك ومحتوى بصري",
+    "service-graphic-desc": "ابتكار تصاميم جرافيك احترافية، منشورات وبطاقات دعوية راقية، وصور إعلانية جذابة للمنتجات تُبرز هويتك",
+    "service-audio-title": "تفريغ ومعالجة الصوتيات",
+    "service-audio-desc": "تفريغ دقيق للمحاضرات والتسجيلات وتنسيقها باحترافية، مع تنقية الصوت من الضوضاء وتحسين جودته",
 
     // Portfolio
     "portfolio-badge": "معرض الأعمال",
@@ -98,6 +102,8 @@ const translations = {
     "opt-blog": "مدونة بلوجر احترافية",
     "opt-dawah": "موقع دعوي",
     "opt-bot": "بوت تليجرام مخصص",
+    "opt-graphic": "تصميم جرافيك ومحتوى بصري",
+    "opt-audio": "تفريغ ومعالجة الصوتيات",
     "opt-other": "خدمة أخرى",
     "label-desc": "وصف ما تريد",
     "ph-desc": "اشرح لنا تفاصيل مشروعك أو الخدمة المطلوبة...",
@@ -211,6 +217,10 @@ const translations = {
     "service-dawah-desc": "Establish digital Dawah platforms to spread knowledge and goodness with elegant and organized structures",
     "service-bot-title": "Telegram Bots",
     "service-bot-desc": "Develop custom Telegram bots with advanced features to automate processes and assist your workflow",
+    "service-graphic-title": "Graphic Design & Visual Content",
+    "service-graphic-desc": "Creative graphic designs, social media posts, elegant Dawah cards, and appealing product ads that showcase your brand",
+    "service-audio-title": "Audio Transcription & Audio Cleaning",
+    "service-audio-desc": "Accurate transcription and professional formatting for lectures and audios, with noise removal and sound enhancement",
 
     // Portfolio
     "portfolio-badge": "Portfolio",
@@ -265,6 +275,8 @@ const translations = {
     "opt-blog": "Professional Blogger Blog",
     "opt-dawah": "Dawah / Islamic Website",
     "opt-bot": "Custom Telegram Bot",
+    "opt-graphic": "Graphic Design & Visual Content",
+    "opt-audio": "Audio Transcription & Audio Cleaning",
     "opt-other": "Other Service",
     "label-desc": "Project Description",
     "ph-desc": "Describe your project requirements or the service you need...",
