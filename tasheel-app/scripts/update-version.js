@@ -53,9 +53,10 @@ function pickLatest(files) {
 function describe(entry) {
   if (!entry) return null;
   const stats = fs.statSync(path.join(DOWNLOAD_DIR, entry.file));
+  const ver = `v${entry.version.join('.')}`;
   return {
     file: entry.file,
-    url: `download/${encodeURIComponent(entry.file)}`,
+    url: `https://github.com/Imad-Verse/MadoVerse/releases/download/${ver}/${encodeURIComponent(entry.file)}`,
     version: entry.version.join('.'),
     size: stats.size,
     updatedAt: stats.mtime.toISOString(),

@@ -1,0 +1,12 @@
+# Dependencies & system files
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Large binaries (Hosted on GitHub Releases due to Cloudflare Pages 25MB limit)
+*.apk
+*.zip
+*.exe
+*.dmg
+tasheel-app/download/*.apk
+tasheel-app/download/*.zip
