@@ -291,6 +291,65 @@
     });
   }
 
+  // ── 7.1 GitHub Releases Live Download Counter ──────────────────────────
+  const RELEASES_API_URL = 'https://api.github.com/repos/Imad-Verse/MadoVerse/releases';
+  const DL_CACHE_KEY = 'tasheel_dl_count_cache_v1';
+  const DL_CACHE_TTL = 30 * 60 * 1000; // كاش 30 دقيقة لتفادي استهلاك حدود GitHub API
+
+  function formatCount(num) {
+    if (typeof num !== 'number' || isNaN(num) || num < 0) return '—';
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M+`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}k+`;
+    return num.toLocaleString('en-US');
+  }
+
+  function animateCount(el, target, duration = 800) {
+    if (!el || target <= 0) return;
+    const startTime = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(target * ease);
+      el.textContent = formatCount(current);
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = formatCount(target);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function renderDownloadStats(stats, animate = false) {
+    if (!stats) return;
+    const androidCount = Number(stats.android) || 0;
+    const windowsCount = Number(stats.windows) || 0;
+    const total = androidCount + windowsCount;
+
+    $$('[data-dl-count="android"]').forEach((el) => {
+      if (androidCount > 0) {
+        if (animate) animateCount(el, androidCount);
+        else el.textContent = formatCount(androidCount);
+      } else {
+        el.textContent = 'جديد';
+      }
+    });
+
+    $$('[data-dl-count="windows"]').forEach((el) => {
+      if (windowsCount > 0) {
+        if (animate) animateCount(el, windowsCount);
+        else el.textContent = formatCount(windowsCount);
+      } else {
+        el.textContent = 'قريباً';
+      }
+    });
+
+    if (total > 0) {
+      $$('[data-dl-total-wrap]').forEach((el) => (el.hidden = false));
+      $$('[data-dl-total-count]').forEach((el) => {
+        if (animate) animateCount(el, total);
+        else el.textContent = formatCount(total);
+      });
+    }
+  }
+
   // منع تنزيل غير متاح وعرض تنبيه «قريباً»
   document.addEventListener('click', (e) => {
     const link = e.target.closest('[data-dl][data-available="false"]');
@@ -300,12 +359,85 @@
     showToast(`نسخة ${name} قيد التجهيز وستتوفر قريباً بإذن الله`, 'info', 4200);
   });
 
-  // تتبع بسيط للتنزيل (رسالة شكر)
+  // تتبع التنزيل (رسالة شكر + زيادة العداد محلياً فورياً)
   document.addEventListener('click', (e) => {
     const link = e.target.closest('[data-dl][data-available="true"]');
     if (!link) return;
     showToast('بدأ التنزيل… جزاك الله خيراً على نشر العلم', 'download', 3600);
+
+    try {
+      const platform = link.dataset.dl || 'android';
+      const raw = localStorage.getItem(DL_CACHE_KEY);
+      const data = raw ? JSON.parse(raw) : { timestamp: Date.now(), stats: { android: 0, windows: 0 } };
+      if (!data.stats) data.stats = { android: 0, windows: 0 };
+      data.stats[platform] = (Number(data.stats[platform]) || 0) + 1;
+      localStorage.setItem(DL_CACHE_KEY, JSON.stringify(data));
+      renderDownloadStats(data.stats, false);
+    } catch (_) {}
   });
+
+  async function loadDownloadStats() {
+    if (window.location.protocol === 'file:') return;
+
+    let cached = null;
+    try {
+      const raw = localStorage.getItem(DL_CACHE_KEY);
+      if (raw) cached = JSON.parse(raw);
+    } catch (_) {}
+
+    const now = Date.now();
+    const hasFreshCache = cached && cached.stats && now - cached.timestamp < DL_CACHE_TTL;
+
+    if (hasFreshCache) {
+      renderDownloadStats(cached.stats, false);
+      return;
+    }
+
+    if (cached && cached.stats) {
+      renderDownloadStats(cached.stats, false);
+    }
+
+    try {
+      const res = await fetch(RELEASES_API_URL, {
+        headers: { Accept: 'application/vnd.github.v3+json' },
+      });
+      if (!res.ok) return;
+      const releases = await res.json();
+      if (!Array.isArray(releases)) return;
+
+      let androidCount = 0;
+      let windowsCount = 0;
+
+      for (const rel of releases) {
+        if (!Array.isArray(rel.assets)) continue;
+        for (const asset of rel.assets) {
+          const name = (asset.name || '').toLowerCase();
+          const count = Number(asset.download_count) || 0;
+          if (name.endsWith('.apk')) {
+            androidCount += count;
+          } else if (name.endsWith('.zip') || name.endsWith('.exe')) {
+            windowsCount += count;
+          }
+        }
+      }
+
+      const freshStats = {
+        android: androidCount,
+        windows: windowsCount,
+      };
+
+      try {
+        localStorage.setItem(
+          DL_CACHE_KEY,
+          JSON.stringify({ timestamp: now, stats: freshStats })
+        );
+      } catch (_) {}
+
+      renderDownloadStats(freshStats, true);
+    } catch (err) {
+      console.warn('[Tasheel] تعذر جلب إحصائيات التحميل من GitHub:', err);
+    }
+  }
 
   async function probeCandidate(url) {
     try {
@@ -384,6 +516,7 @@
   }
 
   loadManifest();
+  loadDownloadStats();
 
   /* ── 8. Footer year ────────────────────────────────────────────────────── */
   $$('[data-year]').forEach((el) => (el.textContent = new Date().getFullYear()));

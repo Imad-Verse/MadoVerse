@@ -198,6 +198,23 @@ ol {
   height: 16px;
 }
 
+.eyebrow__sep {
+  opacity: 0.45;
+  margin: 0 2px;
+}
+
+.eyebrow__stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--gold-200);
+}
+
+.eyebrow__stat .icon {
+  width: 13px;
+  height: 13px;
+}
+
 .section--dark .eyebrow,
 .hero .eyebrow {
   color: var(--gold-300);
@@ -1390,8 +1407,14 @@ ol {
 
 .dl-specs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+}
+
+@media (max-width: 580px) {
+  .dl-specs {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .dl-specs div {
@@ -1422,6 +1445,12 @@ ol {
   font-weight: 700;
   direction: ltr;
   color: var(--brown);
+}
+
+.dl-specs dd[data-dl-count] {
+  direction: rtl;
+  unicode-bidi: plaintext;
+  font-variant-numeric: tabular-nums;
 }
 
 .dl-card--primary .dl-specs dd {
