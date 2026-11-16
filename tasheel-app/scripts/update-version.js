@@ -56,7 +56,7 @@ function describe(entry) {
   const ver = `v${entry.version.join('.')}`;
   return {
     file: entry.file,
-    url: `https://github.com/Imad-Verse/MadoVerse/releases/download/${ver}/${encodeURIComponent(entry.file)}`,
+    url: `https://github.com/Imad-Verse/tasheel_app/releases/download/${ver}/${encodeURIComponent(entry.file)}`,
     version: entry.version.join('.'),
     size: stats.size,
     updatedAt: stats.mtime.toISOString(),
