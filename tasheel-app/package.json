@@ -1,0 +1,13 @@
+{
+  "name": "tasheel-app-landing",
+  "version": "1.4.6",
+  "private": true,
+  "description": "الموقع الرسمي وصفحة الهبوط لتطبيق تسهيل للعلوم الشرعية والمتون التأصيلية",
+  "scripts": {
+    "start": "npx serve -l 3000 .",
+    "update-version": "node scripts/update-version.js"
+  },
+  "keywords": ["tasheel", "islamic-app", "islamic-studies", "mutoon", "landing-page"],
+  "author": "Imad Eddine Baaloul (MadoVerse)",
+  "license": "UNLICENSED"
+}
