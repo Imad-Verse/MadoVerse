@@ -251,7 +251,33 @@
     btn.addEventListener('click', () => copyText(btn.dataset.copy, btn.dataset.copyLabel || 'النص'))
   );
 
-  /* ── 7. Download links & release manifest ──────────────────────────────── */
+  /* ── 7. Download links, live GitHub Release sync & download counter ───── */
+  const RELEASES_API_URL = 'https://api.github.com/repos/Imad-Verse/MadoVerse/releases';
+  const DL_CACHE_KEY = 'tasheel_dl_count_cache_v2';
+  const RELEASE_CACHE_KEY = 'tasheel_release_cache_v1';
+  const DL_CACHE_TTL = 2 * 60 * 1000; // تحديث كل دقيقتين لالتقاط أي إصدار جديد على GitHub بسرعة
+
+  let baseDownloads = { android: 0, windows: 0 };
+  let activeVersionTuple = [1, 4, 7];
+
+  function extractVersion(str) {
+    if (!str) return null;
+    const m = String(str).match(/v?[._-]?(\d+)\.(\d+)(?:\.(\d+))?/i);
+    if (!m) return null;
+    const tuple = [Number(m[1]), Number(m[2]), Number(m[3] || 0)];
+    return { tuple, text: tuple.join('.') };
+  }
+
+  function compareTuples(a, b) {
+    if (!a && !b) return 0;
+    if (!a) return -1;
+    if (!b) return 1;
+    for (let i = 0; i < 3; i++) {
+      if ((a[i] || 0) !== (b[i] || 0)) return (a[i] || 0) - (b[i] || 0);
+    }
+    return 0;
+  }
+
   function formatSize(bytes) {
     if (!bytes || bytes <= 0) return '—';
     const mb = bytes / (1024 * 1024);
@@ -274,13 +300,27 @@
     )}`;
   }
 
+  function updateReleaseDate(isoDate) {
+    if (!isoDate) return;
+    try {
+      const date = new Date(isoDate);
+      if (isNaN(date.getTime())) return;
+      const formatted = date.toLocaleDateString('ar', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+      $$('[data-release-date]').forEach((el) => (el.textContent = formatted));
+    } catch (_) {}
+  }
+
   function setPlatform(platform, info) {
     const links = $$(`[data-dl="${platform}"]`);
     const available = Boolean(info && info.url);
     links.forEach((link) => {
       link.dataset.available = String(available);
       link.setAttribute('href', available ? info.url : '#download');
-      if (available) link.setAttribute('download', info.file);
+      if (available && info.file) link.setAttribute('download', info.file);
       else link.removeAttribute('download');
     });
     $$(`[data-size="${platform}"]`).forEach((el) => {
@@ -291,10 +331,29 @@
     });
   }
 
-  // ── 7.1 GitHub Releases Live Download Counter ──────────────────────────
-  const RELEASES_API_URL = 'https://api.github.com/repos/Imad-Verse/MadoVerse/releases';
-  const DL_CACHE_KEY = 'tasheel_dl_count_cache_v1';
-  const DL_CACHE_TTL = 30 * 60 * 1000; // كاش 30 دقيقة لتفادي استهلاك حدود GitHub API
+  function applyReleaseData(releaseData) {
+    if (!releaseData) return;
+    if (releaseData.version) {
+      const parsed = extractVersion(releaseData.version);
+      if (parsed && compareTuples(parsed.tuple, activeVersionTuple) >= 0) {
+        activeVersionTuple = parsed.tuple;
+        $$('[data-app-version]').forEach((el) => {
+          el.textContent = `v${parsed.text}`;
+        });
+      }
+    }
+    if (releaseData.android && releaseData.android.url) {
+      const andVer = extractVersion(releaseData.android.version || releaseData.android.file || releaseData.version);
+      if (!andVer || compareTuples(andVer.tuple, activeVersionTuple) >= 0) {
+        setPlatform('android', releaseData.android);
+        updateQr(releaseData.android.url);
+        if (releaseData.android.updatedAt) updateReleaseDate(releaseData.android.updatedAt);
+      }
+    }
+    if (releaseData.windows && releaseData.windows.url) {
+      setPlatform('windows', releaseData.windows);
+    }
+  }
 
   function formatCount(num) {
     if (typeof num !== 'number' || isNaN(num) || num < 0) return '—';
@@ -359,7 +418,7 @@
     showToast(`نسخة ${name} قيد التجهيز وستتوفر قريباً بإذن الله`, 'info', 4200);
   });
 
-  // تتبع التنزيل (رسالة شكر + زيادة العداد محلياً فورياً)
+  // تتبع التنزيل (رسالة شكر + زيادة العداد محلياً مع حفظه من التصفير)
   document.addEventListener('click', (e) => {
     const link = e.target.closest('[data-dl][data-available="true"]');
     if (!link) return;
@@ -376,54 +435,118 @@
     } catch (_) {}
   });
 
-  async function loadDownloadStats() {
+  async function syncGitHubReleases() {
     if (window.location.protocol === 'file:') return;
 
-    let cached = null;
+    let cachedDl = null;
     try {
-      const raw = localStorage.getItem(DL_CACHE_KEY);
-      if (raw) cached = JSON.parse(raw);
+      const rawDl = localStorage.getItem(DL_CACHE_KEY);
+      if (rawDl) cachedDl = JSON.parse(rawDl);
+      const rawRel = localStorage.getItem(RELEASE_CACHE_KEY);
+      if (rawRel) applyReleaseData(JSON.parse(rawRel));
     } catch (_) {}
 
-    const now = Date.now();
-    const hasFreshCache = cached && cached.stats && now - cached.timestamp < DL_CACHE_TTL;
-
-    if (hasFreshCache) {
-      renderDownloadStats(cached.stats, false);
-      return;
+    if (cachedDl && cachedDl.stats) {
+      renderDownloadStats(cachedDl.stats, false);
     }
 
-    if (cached && cached.stats) {
-      renderDownloadStats(cached.stats, false);
+    const now = Date.now();
+    if (cachedDl && cachedDl.timestamp && now - cachedDl.timestamp < DL_CACHE_TTL) {
+      return;
     }
 
     try {
       const res = await fetch(RELEASES_API_URL, {
         headers: { Accept: 'application/vnd.github.v3+json' },
+        cache: 'no-store',
       });
       if (!res.ok) return;
       const releases = await res.json();
       if (!Array.isArray(releases)) return;
 
-      let androidCount = 0;
-      let windowsCount = 0;
+      let apiAndroidCount = 0;
+      let apiWindowsCount = 0;
+      let latestAndroid = null;
+      let latestWindows = null;
 
       for (const rel of releases) {
-        if (!Array.isArray(rel.assets)) continue;
+        if (rel.draft || !Array.isArray(rel.assets)) continue;
+        const relVer = extractVersion(rel.tag_name || rel.name);
+
         for (const asset of rel.assets) {
           const name = (asset.name || '').toLowerCase();
           const count = Number(asset.download_count) || 0;
+          const assetVer = extractVersion(asset.name) || relVer;
+
           if (name.endsWith('.apk')) {
-            androidCount += count;
-          } else if (name.endsWith('.zip') || name.endsWith('.exe')) {
-            windowsCount += count;
+            apiAndroidCount += count;
+            if (
+              assetVer &&
+              (!latestAndroid || compareTuples(assetVer.tuple, latestAndroid.tuple) > 0)
+            ) {
+              latestAndroid = {
+                file: asset.name,
+                url: asset.browser_download_url,
+                version: assetVer.text,
+                tuple: assetVer.tuple,
+                size: Number(asset.size) || 0,
+                updatedAt: asset.updated_at || rel.published_at || rel.created_at,
+              };
+            }
+          } else if (name.endsWith('.zip') || name.endsWith('.exe') || name.endsWith('.msix')) {
+            apiWindowsCount += count;
+            if (
+              assetVer &&
+              (!latestWindows || compareTuples(assetVer.tuple, latestWindows.tuple) > 0)
+            ) {
+              latestWindows = {
+                file: asset.name,
+                url: asset.browser_download_url,
+                version: assetVer.text,
+                tuple: assetVer.tuple,
+                size: Number(asset.size) || 0,
+                updatedAt: asset.updated_at || rel.published_at || rel.created_at,
+              };
+            }
           }
         }
       }
 
+      // تحديث بيانات أحدث إصدار تلقائياً من GitHub Releases
+      const newestTuple =
+        latestAndroid && latestWindows
+          ? compareTuples(latestAndroid.tuple, latestWindows.tuple) >= 0
+            ? latestAndroid.tuple
+            : latestWindows.tuple
+          : (latestAndroid || latestWindows)?.tuple;
+
+      if (newestTuple) {
+        const liveRelease = {
+          version: newestTuple.join('.'),
+          android: latestAndroid,
+          windows: latestWindows,
+        };
+        applyReleaseData(liveRelease);
+        try {
+          localStorage.setItem(RELEASE_CACHE_KEY, JSON.stringify(liveRelease));
+        } catch (_) {}
+      }
+
+      // حساب إجمالي التحميلات (مع إضافة الرصيد الأساسي ومنع تصفير العداد المحلي)
+      const prevAndroid = Number(cachedDl?.stats?.android) || 0;
+      const prevWindows = Number(cachedDl?.stats?.windows) || 0;
+      const totalAndroid = Math.max(
+        prevAndroid,
+        (Number(baseDownloads.android) || 0) + apiAndroidCount
+      );
+      const totalWindows = Math.max(
+        prevWindows,
+        (Number(baseDownloads.windows) || 0) + apiWindowsCount
+      );
+
       const freshStats = {
-        android: androidCount,
-        windows: windowsCount,
+        android: totalAndroid,
+        windows: totalWindows,
       };
 
       try {
@@ -433,9 +556,9 @@
         );
       } catch (_) {}
 
-      renderDownloadStats(freshStats, true);
+      renderDownloadStats(freshStats, !cachedDl);
     } catch (err) {
-      console.warn('[Tasheel] تعذر جلب إحصائيات التحميل من GitHub:', err);
+      console.warn('[Tasheel] تعذر جلب بيانات الإصدارات من GitHub:', err);
     }
   }
 
@@ -453,42 +576,28 @@
     }
   }
 
-  async function loadManifest() {
-    // القيم الافتراضية المضمّنة في الصفحة تعمل حتى دون هذا الملف
+  async function initDownloads() {
+    // القيم الافتراضية المضمّنة في الصفحة تعمل حتى دون اتصال
     const initialApk = $('[data-dl="android"]')?.getAttribute('href');
     updateQr(initialApk);
 
     if (window.location.protocol === 'file:') return;
 
-    let currentVersion = '1.4.6';
     let hasWindows = false;
 
     try {
       const res = await fetch('download/version.json', { cache: 'no-cache' });
       if (res.ok) {
         const manifest = await res.json();
-        if (manifest && manifest.version) {
-          currentVersion = manifest.version;
-          $$('[data-app-version]').forEach((el) => {
-            el.textContent = `v${manifest.version}`;
-          });
-
-          if (manifest.android) {
-            setPlatform('android', manifest.android);
-            updateQr(manifest.android.url);
-            if (manifest.android.updatedAt) {
-              const date = new Date(manifest.android.updatedAt);
-              const formatted = date.toLocaleDateString('ar', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              });
-              $$('[data-release-date]').forEach((el) => (el.textContent = formatted));
-            }
+        if (manifest) {
+          if (manifest.baseDownloads) {
+            baseDownloads = {
+              android: Number(manifest.baseDownloads.android) || 0,
+              windows: Number(manifest.baseDownloads.windows) || 0,
+            };
           }
-
+          applyReleaseData(manifest);
           if (manifest.windows && manifest.windows.url) {
-            setPlatform('windows', manifest.windows);
             hasWindows = true;
           }
         }
@@ -497,12 +606,16 @@
       console.warn('[Tasheel] تعذر قراءة download/version.json — سيتم اعتماد القيم الافتراضية.', err);
     }
 
-    // فحص تلقائي لملف ويندوز مضغوط (.zip) في مجلد download/ في حال إضافته مباشرة
-    if (!hasWindows) {
+    // مزامنة مباشرة مع GitHub Releases لالتقاط أحدث إصدار وعداد التحميلات
+    await syncGitHubReleases();
+
+    // فحص تلقائي لملف ويندوز مضغوط (.zip) في مجلد download/ في حال إضافته محلياً
+    if (!hasWindows && $('[data-dl="windows"]')?.dataset.available !== 'true') {
+      const verStr = activeVersionTuple.join('.');
       const zipCandidates = [
-        `download/tasheel-v${currentVersion}-windows.zip`,
-        `download/tasheel-windows-v${currentVersion}.zip`,
-        `download/tasheel-v${currentVersion}.zip`,
+        `download/tasheel-v${verStr}-windows.zip`,
+        `download/tasheel-windows-v${verStr}.zip`,
+        `download/tasheel-v${verStr}.zip`,
         `download/tasheel-windows.zip`,
       ];
       for (const candidate of zipCandidates) {
@@ -515,8 +628,7 @@
     }
   }
 
-  loadManifest();
-  loadDownloadStats();
+  initDownloads();
 
   /* ── 8. Footer year ────────────────────────────────────────────────────── */
   $$('[data-year]').forEach((el) => (el.textContent = new Date().getFullYear()));

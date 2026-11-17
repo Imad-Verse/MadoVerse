@@ -1,12 +1,16 @@
 {
-  "version": "1.4.6",
-  "generatedAt": "2026-11-16T21:30:00.000Z",
+  "version": "1.4.7",
+  "generatedAt": "2026-11-17T21:05:00.000Z",
+  "baseDownloads": {
+    "android": 0,
+    "windows": 0
+  },
   "android": {
-    "file": "tasheel-v1.4.6.apk",
-    "url": "https://github.com/Imad-Verse/MadoVerse/releases/download/v1.4.6/tasheel-v1.4.6.apk",
-    "version": "1.4.6",
+    "file": "tasheel-v1.4.7.apk",
+    "url": "https://github.com/Imad-Verse/MadoVerse/releases/download/v.1.4.7/tasheel-v1.4.7.apk",
+    "version": "1.4.7",
     "size": 92370724,
-    "updatedAt": "2026-11-16T06:08:08.000Z"
+    "updatedAt": "2026-11-17T21:00:00.000Z"
   },
   "windows": null
 }
